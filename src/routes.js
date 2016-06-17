@@ -11,6 +11,7 @@ import {
     LoginSuccess,
     Survey,
     NotFound,
+    EditVirtualServer,
   } from 'containers';
 
 export default (store) => {
@@ -50,6 +51,11 @@ export default (store) => {
       <Route path="login" component={Login}/>
       <Route path="survey" component={Survey}/>
       <Route path="widgets" component={Widgets}/>
+
+      { /* ZLI Routes */ }
+      <Route path="slb" component={EditVirtualServer}>
+        <Route path="vs" component={EditVirtualServer}/>
+      </Route>
 
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />

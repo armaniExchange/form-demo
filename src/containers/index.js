@@ -8,3 +8,4 @@ export LoginSuccess from './LoginSuccess/LoginSuccess';
 export Survey from './Survey/Survey';
 export NotFound from './NotFound/NotFound';
 export EditVirtualServer from './VirtualServer/Edit';
+export ComponentBuilder from './ComponentBuilder/Edit';

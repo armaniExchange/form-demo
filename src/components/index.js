@@ -13,3 +13,6 @@ export SurveyForm from './SurveyForm/SurveyForm';
 export WidgetForm from './WidgetForm/WidgetForm';
 export VirtualServerForm from './VirtualServerForm/VirtualServerForm';
 export FormCreateToolbar from './FormCreateToolbar/FormCreateToolbar';
+export ComponentBuilderSidebar from './ComponentBuilderSidebar/ComponentBuilderSidebar';
+export ComponentBuilderSandbox from './ComponentBuilderSandbox/ComponentBuilderSandbox';
+export ComponentBuilderProperties from './ComponentBuilderProperties/ComponentBuilderProperties';

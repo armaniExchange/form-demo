@@ -2,29 +2,25 @@ export default [
   {
     iconClassName: 'fa fa-font',
     type: 'basic',
-    path: 'components/Button/Button',
-    name: 'Button',
+    name: 'MyButton',
     description: ''
   },
   {
     iconClassName: 'fa fa-font',
     type: 'forms',
-    path: 'components/Button/Button',
-    name: 'Button',
+    name: 'MyButton',
     description: ''
   },
   {
     iconClassName: 'fa fa-font',
     type: 'tables',
-    path: 'components/Button/Button',
-    name: 'Button',
+    name: 'MyButton',
     description: ''
   },
   {
     iconClassName: 'fa fa-font',
     type: 'charts',
-    path: 'components/Button/Button',
-    name: 'Button',
+    name: 'MyButton',
     description: ''
   },
 ];

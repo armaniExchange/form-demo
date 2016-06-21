@@ -19,7 +19,35 @@ import {
 )
 export default class ComponentBuilder extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      sandboxValue: {
+        componentId: '123',
+        component: 'div',
+        children: [
+          {
+            componentId: '456',
+            component: 'MyButton',
+            bsStyle: 'primary',
+            children: 'OK'
+          },
+          {
+            componentId: '789',
+            component: 'MyButton',
+            bsStyle: 'danger',
+            children: 'Cancel'
+          },
+        ]
+      }
+    };
+  }
+
   render() {
+    const {
+      sandboxValue
+    } = this.state;
+
     return (
       <div className="container-fluid">
         <h1> Component Builder </h1>
@@ -28,7 +56,9 @@ export default class ComponentBuilder extends Component {
             <ComponentBuilderSidebar />
           </Col>
           <Col xs={5}>
-            <ComponentBuilderSandbox />
+            <ComponentBuilderSandbox
+              value={sandboxValue}
+            />
           </Col>
           <Col xs={3}>
             <ComponentBuilderProperties />

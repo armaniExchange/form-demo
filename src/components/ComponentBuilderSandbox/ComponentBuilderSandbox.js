@@ -1,42 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
 import Button from 'react-bootstrap/lib/Button';
-import DndTypes from '../../constants/DndTypes';
-
 import { DropTarget } from 'react-dnd';
-import { MyButton } from 'components';
+
+import DndTypes from '../../constants/DndTypes';
+import jsonToReactComponent from '../../utils/jsonToReactComponent';
 
 const componentTarget = {
-
-  // hover(props, monitor, component) {
-  //   console.log('hover');
-  //   console.log(props);
-  //   console.log(monitor);
-  //   console.log(component);
-
-  // //   // // This is fired very often and lets you perform side effects
-  // //   // // in response to the hover. You can't handle enter and leave
-  // //   // // here—if you need them, put monitor.isOver() into collect() so you
-  // //   // // can just use componentWillReceiveProps() to handle enter/leave.
-
-  // //   // // You can access the coordinates if you need them
-  // //   // const clientOffset = monitor.getClientOffset();
-  // //   // const componentRect = findDOMNode(component).getBoundingClientRect();
-
-  // //   // // You can check whether we're over a nested drop target
-  // //   // const isJustOverThisOne = monitor.isOver({ shallow: true });
-
-  // //   // // You will receive hover() even for items for which canDrop() is false
-  // //   // const canDrop = monitor.canDrop();
-  // },
-
   drop(props, monitor, component) {
-    // if (monitor.didDrop()) {
-    //   // If you want, you can check whether some nested
-    //   // target already handled drop
-    //   return;
-    // }
-
     // Obtain the dragged item
     const item = monitor.getItem();
     console.log(component);
@@ -64,14 +35,19 @@ const componentTarget = {
 /* eslint-enable */
 export default class ComponentBuilderSandbox extends Component {
   static propTypes = {
-    connectDropTarget: PropTypes.func
+    connectDropTarget: PropTypes.func,
+    value: PropTypes.object
   }
   render() {
-    const { connectDropTarget } = this.props;
+    const {
+      connectDropTarget,
+      value
+    } = this.props;
+
     return connectDropTarget(
       <div>
         <Panel>
-          <MyButton bsStyle="primary">Test</MyButton>
+          {jsonToReactComponent(value)}
         </Panel>
         <Button bsStyle="primary" onClick={(event)=>event.preventDefault()}>
           Preview

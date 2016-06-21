@@ -48,20 +48,20 @@ export default function connectToWrap() {
   return (WrappedComponent) => {
     /* eslint-disable */
     @DragSource(DndTypes.COMPONENT, componentSource, (connect, monitor) => ({
-      // Call this function inside render()
-      // to let React DnD handle the drag events:
       connectDragSource: connect.dragSource(),
-      // You can ask the monitor about the current drag state:
-      isDragging: monitor.isDragging()
+      isDragging: monitor.isDragging(),
     }))
     /* eslint-enable */
     class Wrap extends Component {
       static propTypes = {
+        componentId: PropTypes.string,
         connectDragSource: PropTypes.func
       }
 
       editProperties() {
         console.log('editProperties');
+        console.log('componentId');
+        console.log(this.props.componentId);
         console.log(Object.keys(WrappedComponent.propTypes));
       }
 
@@ -69,14 +69,12 @@ export default function connectToWrap() {
         return (
           <div>
             Text
-            <i className="fa fa-cog pull-right" onClick={this.editProperties}/>
+            <i className="fa fa-cog pull-right" onClick={::this.editProperties}/>
           </div>
         );
       }
       render() {
         const { connectDragSource } = this.props;
-        console.log('wrap props');
-        console.log(this.props);
         return connectDragSource(
           <div>
             <Panel header={this.renderTitle()}>

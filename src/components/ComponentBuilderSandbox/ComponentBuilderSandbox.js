@@ -2,16 +2,18 @@ import React, { Component, PropTypes } from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
 import Button from 'react-bootstrap/lib/Button';
 import { DropTarget } from 'react-dnd';
+import {connect} from 'react-redux';
 
 import DndTypes from '../../constants/DndTypes';
 import jsonToReactComponent from '../../utils/jsonToReactComponent';
+import { addComponent } from '../../redux/modules/componentBuilder';
 
 const componentTarget = {
-  drop(props, monitor, component) {
-    // Obtain the dragged item
+  drop(props, monitor, /* component */) {
     const item = monitor.getItem();
-    console.log(component);
-    console.log(item);
+    if (item) {
+      props.addComponent(item);
+    }
     // You can do something with it
     // ChessActions.movePiece(item.fromPosition, props.position);
 
@@ -22,6 +24,7 @@ const componentTarget = {
   }
 };
 /* eslint-disable */
+@connect(null, { addComponent })
 @DropTarget(DndTypes.COMPONENT, componentTarget, (connect, monitor) => ({
   // Call this function inside render()
   // to let React DnD handle the drag events:
@@ -36,7 +39,8 @@ const componentTarget = {
 export default class ComponentBuilderSandbox extends Component {
   static propTypes = {
     connectDropTarget: PropTypes.func,
-    value: PropTypes.object
+    value: PropTypes.object,
+    addComponent: PropTypes.func
   }
   render() {
     const {

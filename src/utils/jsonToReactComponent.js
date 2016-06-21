@@ -7,7 +7,6 @@ const toComponent = (obj) => {
     component
   } = obj;
 
-  obj.children = children || [];
   let reactComponent = component;
   if (typeof component === 'string') {
     const matchedComponent = allComponents[component];
@@ -15,8 +14,9 @@ const toComponent = (obj) => {
       reactComponent = matchedComponent;
     }
   }
-
-  const childrenComponent = typeof obj.children === 'string' ? obj : children.map(toComponent);
+  console.log('children');
+  console.log(children);
+  const childrenComponent = !children || typeof children === 'string' ? obj : (children || []).map(toComponent);
   return React.createElement.apply(this, [reactComponent, obj, ...childrenComponent]);
 };
 

@@ -47,6 +47,7 @@ export default class ComponentBuilderSidebar extends Component {
                               <ComponentCandidate
                                 key={index}
                                 name={item.name}
+                                component={item.component}
                                 iconClassName={item.iconClassName}
                               />
                             );

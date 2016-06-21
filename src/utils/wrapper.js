@@ -6,7 +6,8 @@ import DndTypes from '../constants/DndTypes';
 import {
   // addComponent,
   // updateComponent,
-  startToEditComponent
+  startToEditComponent,
+  deleteComponent
 } from '../redux/modules/componentBuilder';
 
 /**
@@ -56,13 +57,22 @@ export default function connectToWrap() {
       connectDragSource: dragConnect.dragSource(),
       isDragging: monitor.isDragging(),
     }))
-    @connect(null, { startToEditComponent })
+    @connect(null, {
+      startToEditComponent,
+      deleteComponent
+    })
     /* eslint-enable */
     class Wrap extends Component {
       static propTypes = {
         componentId: PropTypes.string,
         connectDragSource: PropTypes.func,
-        startToEditComponent: PropTypes.func
+        startToEditComponent: PropTypes.func,
+        deleteComponent: PropTypes.func
+      }
+
+
+      deleteComponent() {
+        this.props.deleteComponent(this.props.componentId);
       }
 
       editProperties() {
@@ -78,9 +88,13 @@ export default function connectToWrap() {
 
       renderTitle() {
         return (
-          <div>
+          <div >
             Text
-            <i className="fa fa-cog pull-right" onClick={::this.editProperties}/>
+            <div className="pull-right">
+              <i className="fa fa-cog" onClick={::this.editProperties}/>
+              &nbsp;
+              <i className="fa fa-trash text-alert" onClick={::this.deleteComponent}/>
+            </div>
           </div>
         );
       }

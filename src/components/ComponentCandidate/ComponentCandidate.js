@@ -21,7 +21,8 @@ const componentSource = {
     // Return the data describing the dragged item
     const item = {
       id: props.id,
-      name: props.name
+      name: props.name,
+      component: props.component
     };
     return item;
   },
@@ -58,8 +59,9 @@ const componentSource = {
 class ComponentCandidate extends Component {
   static propTypes = {
     connectDragSource: PropTypes.func,
+    iconClassName: PropTypes.string,
     name: PropTypes.string,
-    iconClassName: PropTypes.string
+    component: PropTypes.string
   }
 
   render() {

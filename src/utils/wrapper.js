@@ -1,7 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
-import { DragSource } from 'react-dnd';
+import {connect} from 'react-redux';
+import { DragSource as dragSource} from 'react-dnd';
 import DndTypes from '../constants/DndTypes';
+import {
+  // addComponent,
+  // updateComponent,
+  startToEditComponent
+} from '../redux/modules/componentBuilder';
 
 /**
  * Specifies the drag source contract.
@@ -43,19 +49,20 @@ const componentSource = {
   }
 };
 
-
 export default function connectToWrap() {
   return (WrappedComponent) => {
     /* eslint-disable */
-    @DragSource(DndTypes.COMPONENT, componentSource, (connect, monitor) => ({
-      connectDragSource: connect.dragSource(),
+    @dragSource(DndTypes.COMPONENT, componentSource, (dragConnect, monitor) => ({
+      connectDragSource: dragConnect.dragSource(),
       isDragging: monitor.isDragging(),
     }))
+    @connect(null, { startToEditComponent })
     /* eslint-enable */
     class Wrap extends Component {
       static propTypes = {
         componentId: PropTypes.string,
-        connectDragSource: PropTypes.func
+        connectDragSource: PropTypes.func,
+        startToEditComponent: PropTypes.func
       }
 
       editProperties() {
@@ -63,6 +70,10 @@ export default function connectToWrap() {
         console.log('componentId');
         console.log(this.props.componentId);
         console.log(Object.keys(WrappedComponent.propTypes));
+        this.props.startToEditComponent({
+          componentPropTypes: WrappedComponent.propTypes,
+          componentProps: this.props
+        });
       }
 
       renderTitle() {

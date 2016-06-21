@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import { DragSource } from 'react-dnd';
+import { DragSource as dragSource} from 'react-dnd';
 import DndTypes from '../../constants/DndTypes';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 
@@ -47,15 +47,13 @@ const componentSource = {
   }
 };
 
-/* eslint-disable */
-@DragSource(DndTypes.COMPONENT, componentSource, (connect, monitor) => ({
+@dragSource(DndTypes.COMPONENT, componentSource, (connect, monitor) => ({
   // Call this function inside render()
   // to let React DnD handle the drag events:
   connectDragSource: connect.dragSource(),
   // You can ask the monitor about the current drag state:
   isDragging: monitor.isDragging()
 }))
-/* eslint-enable */
 
 class ComponentCandidate extends Component {
   static propTypes = {

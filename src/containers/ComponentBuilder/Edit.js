@@ -1,8 +1,7 @@
-import React, {Component, /* PropTypes */} from 'react';
+import React, {Component, PropTypes} from 'react';
 import HTML5Backend from 'react-dnd-html5-backend';
 import {DragDropContext as dragDropContext} from 'react-dnd';
 import {connect} from 'react-redux';
-import {initialize} from 'redux-form';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
@@ -14,39 +13,22 @@ import {
 
 @dragDropContext(HTML5Backend)
 @connect(
-  () => ({}),
-  {initialize}
+  state => ({...state.componentBuilder})
 )
 export default class ComponentBuilder extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      sandboxValue: {
-        componentId: '123',
-        component: 'div',
-        children: [
-          {
-            componentId: '456',
-            component: 'MyButton',
-            bsStyle: 'primary',
-            children: 'OK'
-          },
-          {
-            componentId: '789',
-            component: 'MyButton',
-            bsStyle: 'danger',
-            children: 'Cancel'
-          },
-        ]
-      }
-    };
+  static propTypes = {
+    sandboxValue: PropTypes.object,
+    editingComponentProps: PropTypes.object,
+    editingComponentPropTypes: PropTypes.object
   }
 
   render() {
     const {
-      sandboxValue
-    } = this.state;
+      sandboxValue,
+      editingComponentProps,
+      editingComponentPropTypes
+    } = this.props;
 
     return (
       <div className="container-fluid">
@@ -61,7 +43,10 @@ export default class ComponentBuilder extends Component {
             />
           </Col>
           <Col xs={3}>
-            <ComponentBuilderProperties />
+            <ComponentBuilderProperties
+              componentProps={editingComponentProps}
+              componentPropTypes={editingComponentPropTypes}
+            />
           </Col>
         </Row>
       </div>

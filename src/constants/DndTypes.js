@@ -1,4 +1,5 @@
 export default {
   CONTAINER: 'container',
-  BOX: 'box'
+  BOX: 'box',
+  COMPONENT: 'component'
 };

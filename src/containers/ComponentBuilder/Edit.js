@@ -1,4 +1,6 @@
 import React, {Component, /* PropTypes */} from 'react';
+import HTML5Backend from 'react-dnd-html5-backend';
+import {DragDropContext as dragDropContext} from 'react-dnd';
 import {connect} from 'react-redux';
 import {initialize} from 'redux-form';
 import Row from 'react-bootstrap/lib/Row';
@@ -10,10 +12,13 @@ import {
   ComponentBuilderProperties
 } from 'components';
 
+@dragDropContext(HTML5Backend)
 @connect(
   () => ({}),
-  {initialize})
+  {initialize}
+)
 export default class ComponentBuilder extends Component {
+
   render() {
     return (
       <div className="container-fluid">

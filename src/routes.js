@@ -12,6 +12,7 @@ import {
     Survey,
     NotFound,
     EditVirtualServer,
+    ApiTester,
     ComponentBuilder
   } from 'containers';
 
@@ -59,6 +60,8 @@ export default (store) => {
       </Route>
 
       <Route path="component-builder" component={ComponentBuilder} breadcrumb="Component Builder"/>
+      <Route path="tester" component={ApiTester}/>
+
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />
     </Route>

@@ -1,27 +1,27 @@
 export default [
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-square-o',
     type: 'basic',
     name: 'MyButton',
     component: 'MyButton',
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-square-o',
     type: 'basic',
     name: 'Button',
     component: 'Button',
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-align-justify',
     type: 'basic',
     name: 'ButtonGroup',
     component: 'ButtonGroup',
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-check-square-o',
     type: 'basic',
     name: 'Checkbox',
     component: 'Checkbox',
@@ -35,7 +35,7 @@ export default [
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-caret-square-o-down',
     type: 'basic',
     name: 'Dropdown',
     component: 'Dropdown',
@@ -49,7 +49,7 @@ export default [
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-underline',
     type: 'basic',
     name: 'Input',
     component: 'Input',
@@ -63,7 +63,7 @@ export default [
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-dot-circle-o',
     type: 'basic',
     name: 'Radio',
     component: 'Radio',

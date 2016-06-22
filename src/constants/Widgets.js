@@ -72,8 +72,22 @@ export default [
   {
     iconClassName: 'fa fa-font',
     type: 'forms',
-    name: 'MyButton',
-    component: 'MyButton',
+    name: 'InputField',
+    component: 'InputField',
+    description: ''
+  },
+  {
+    iconClassName: 'fa fa-font',
+    type: 'forms',
+    name: 'RadioField',
+    component: 'RadioField',
+    description: ''
+  },
+  {
+    iconClassName: 'fa fa-font',
+    type: 'forms',
+    name: 'CheckboxField',
+    component: 'CheckboxField',
     description: ''
   },
   {

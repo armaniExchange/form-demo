@@ -41,6 +41,7 @@ export default class ComponentBuilder extends Component {
             <ComponentBuilderSandbox
               value={sandboxValue}
             />
+            <textarea style={{width: '100%', height: 'auto', minHeight: 300}} value={JSON.stringify(sandboxValue, '\n', '  ')} />
           </Col>
           <Col xs={3}>
             <ComponentBuilderProperties

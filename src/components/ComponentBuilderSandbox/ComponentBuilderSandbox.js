@@ -10,30 +10,19 @@ import { addComponent } from '../../redux/modules/componentBuilder';
 
 const componentTarget = {
   drop(props, monitor, /* component */) {
-    const item = monitor.getItem();
-    if (item) {
-      props.addComponent(item);
+    if (monitor.didDrop()) {
+      return;
     }
-    // You can do something with it
-    // ChessActions.movePiece(item.fromPosition, props.position);
-
-    // You can also do nothing and return a drop result,
-    // which will be available as monitor.getDropResult()
-    // in the drag source's endDrag() method
-    return { moved: true };
+    const item = monitor.getItem();
+    if (item && item._isNew) {
+      props.addComponent(Object.assign({}, item, { _isNew: false }));
+    }
   }
 };
 /* eslint-disable */
 @connect(null, { addComponent })
 @DropTarget(DndTypes.COMPONENT, componentTarget, (connect, monitor) => ({
-  // Call this function inside render()
-  // to let React DnD handle the drag events:
-  connectDropTarget: connect.dropTarget(),
-  // You can ask the monitor about the current drag state:
-  isOver: monitor.isOver(),
-  isOverCurrent: monitor.isOver({ shallow: true }),
-  canDrop: monitor.canDrop(),
-  itemType: monitor.getItemType()
+  connectDropTarget: connect.dropTarget()
 }))
 /* eslint-enable */
 export default class ComponentBuilderSandbox extends Component {

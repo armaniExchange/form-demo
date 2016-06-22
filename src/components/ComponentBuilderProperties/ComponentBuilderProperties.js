@@ -42,7 +42,6 @@ export default class ComponentBuilderProperties extends Component {
     const {
       componentPropTypes
     } = this.props;
-
     return (
       <Panel header={<span><i className="fa fa-gear" ariaHidden="true" />&nbsp;Properties</span>}>
         <Form horizontal>

@@ -3,17 +3,8 @@ import { DragSource as dragSource} from 'react-dnd';
 import DndTypes from '../../constants/DndTypes';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 
-
-/**
- * Specifies the drag source contract.
- * Only `beginDrag` function is required.
- */
 const componentSource = {
   isDragging(props, monitor) {
-    // If your component gets unmounted while dragged
-    // (like a card in Kanban board dragged between lists)
-    // you can implement something like this to keep its
-    // appearance dragged:
     return monitor.getItem().id === props.id;
   },
 
@@ -22,29 +13,10 @@ const componentSource = {
     const item = {
       id: props.id,
       name: props.name,
-      component: props.component
+      component: props.component,
+      _isNew: true
     };
     return item;
-  },
-
-  endDrag(props, monitor, /* component */) {
-    if (!monitor.didDrop()) {
-      // You can check whether the drop was successful
-      // or if the drag ended but nobody handled the drop
-      return;
-    }
-
-    // When dropped on a compatible target, do something.
-    // Read the original dragged item from getItem():
-    // const item = monitor.getItem();
-
-    // // You may also read the drop result from the drop target
-    // // that handled the drop, if it returned an object from
-    // // its drop() method.
-    // const dropResult = monitor.getDropResult();
-
-    // This is a good place to call some Flux action
-    // CardActions.moveCardToList(item.id, dropResult.listId);
   }
 };
 

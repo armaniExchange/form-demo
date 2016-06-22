@@ -3,6 +3,7 @@ import { DragSource as dragSource} from 'react-dnd';
 import DndTypes from '../../constants/DndTypes';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 
+const allComponents = require('components');
 const componentSource = {
   isDragging(props, monitor) {
     return monitor.getItem().id === props.id;
@@ -11,8 +12,7 @@ const componentSource = {
   beginDrag(props/* , monitor, component */) {
     // Return the data describing the dragged item
     const item = {
-      id: props.id,
-      name: props.name,
+      ...allComponents[props.component].getComponentDefaultProps(),
       component: props.component,
       _isNew: true
     };

@@ -29,18 +29,20 @@ export default class ComponentBuilderSandbox extends Component {
   static propTypes = {
     connectDropTarget: PropTypes.func,
     value: PropTypes.object,
-    addComponent: PropTypes.func
+    addComponent: PropTypes.func,
+    editingComponentId: PropTypes.string
   }
   render() {
     const {
       connectDropTarget,
+      editingComponentId,
       value
     } = this.props;
 
     return connectDropTarget(
       <div>
         <Panel header={<span><i className="fa fa-pencil-square-o" ariaHidden="true" />&nbsp;Panel</span>}>
-          {jsonToReactComponent(value)}
+          {jsonToReactComponent(value, { editingComponentId })}
         </Panel>
         <Button bsStyle="primary" onClick={(event)=>event.preventDefault()}>
           Preview

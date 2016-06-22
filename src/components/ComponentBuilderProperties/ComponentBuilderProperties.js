@@ -7,24 +7,31 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import Button from 'react-bootstrap/lib/Button';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
-import { updateComponent } from '../../redux/modules/componentBuilder';
+import {
+  updateComponent,
+  stopEditingComponent
+} from '../../redux/modules/componentBuilder';
 
-@connect(null, { updateComponent })
+@connect(null, {
+  updateComponent,
+  stopEditingComponent
+})
 export default class ComponentBuilderProperties extends Component {
   static propTypes = {
     componentProps: PropTypes.object,
     componentPropTypes: PropTypes.object,
-    updateComponent: PropTypes.func
+    updateComponent: PropTypes.func,
+    stopEditingComponent: PropTypes.func,
   }
 
-  state = {
-    children: ''
+  constructor(props) {
+    super(props);
+    this.state = this.getStateFromProps(props);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { componentProps } = nextProps;
-    if (componentProps) {
-      this.setState(Object.assign({children: '', style: {}}, componentProps));
+    if (nextProps.componentProps) {
+      this.setState(this.getStateFromProps(nextProps));
     }
   }
 
@@ -45,6 +52,17 @@ export default class ComponentBuilderProperties extends Component {
     });
   }
 
+  onDismissComponentBuilderPrperties() {
+    this.props.stopEditingComponent();
+  }
+
+  getStateFromProps(props) {
+    const { componentProps } = props;
+    if (componentProps) {
+      return Object.assign({children: '', style: {}}, componentProps);
+    }
+  }
+
   renderInput(propTypeName, propType, value) {
     if (propType === PropTypes.bool) {
       return <Checkbox defaultChecked={value} onChange={this.onCheckBoxChange.bind(this, propTypeName)}/>;
@@ -58,22 +76,19 @@ export default class ComponentBuilderProperties extends Component {
     const {
       componentPropTypes
     } = this.props;
+    const PanelHeader = (
+      <span>
+        <i className="fa fa-gear" ariaHidden="true" />&nbsp;Properties
+        <i className="fa fa-times pull-right"
+          style={{cursor: 'pointer'}}
+          onClick={::this.onDismissComponentBuilderPrperties}
+          ariaHidden="true" />
+      </span>
+    );
+
     return (
-      <Panel header={<span><i className="fa fa-gear" ariaHidden="true" />&nbsp;Properties</span>}>
+      <Panel header={PanelHeader}>
         <Form horizontal>
-          {
-            // <FormGroup>
-            //   <Col sm={6}>
-            //     Style
-            //   </Col>
-            //   <Col sm={6}>
-            //     <FormControl
-            //       type="style"
-            //       value={JSON.stringify(this.state.style)}
-            //       onChange={this.onInputChange.bind(this, 'style')}/>
-            //   </Col>
-            // </FormGroup>
-          }
           <FormGroup>
             <Col sm={6}>
               Text

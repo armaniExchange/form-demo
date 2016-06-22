@@ -1,9 +1,8 @@
 
-.wrapperp {
+@mixin wrapperp {
   margin: 5px;
   padding: 10px;
   overflow: overlay;
-  border: 1px dashed #ddd;
   position: relative;
   padding-top: 30px;
 
@@ -50,4 +49,14 @@
       opacity: 1;
     }
   }
+}
+
+.wrapperp-normal {
+  @include wrapperp;
+  border: 1px dashed #ddd;
+}
+
+.wrapperp-active {
+  @include wrapperp;
+  border: 1px solid darkblue;
 }

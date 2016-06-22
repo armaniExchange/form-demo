@@ -3,6 +3,7 @@ const DELETE_COMPONENT = 'componentBuilder/DELETE_COMPONENT';
 const UPDATE_COMPONENT = 'componentBuilder/UPDATE_COMPONENT';
 const MOVE_COMPONENT = 'componentBuilder/MOVE_COMPONENT';
 const START_TO_EDIT_COMPONENT = 'componentBuilder/START_TO_EDIT_COMPONENT';
+const STOP_EDITING_COMPONENT = 'componentBuilder/STOP_EDITING_COMPONENT';
 
 let count = 0;
 
@@ -25,6 +26,8 @@ const initialState = {
       },
     ]
   },
+  isEditingProps: false,
+  editingComponentId: null,
   editingComponentPropTypes: {},
   editingComponentProps: {}
 };
@@ -109,8 +112,16 @@ export default function reducer(state = initialState, action = {}) {
     case START_TO_EDIT_COMPONENT:
       return {
         ...state,
+        isEditingProps: true,
+        editingComponentId: action.componentProps.componentId,
         editingComponentProps: action.componentProps,
         editingComponentPropTypes: action.componentPropTypes
+      };
+    case STOP_EDITING_COMPONENT:
+      return {
+        ...state,
+        isEditingProps: false,
+        editingComponentId: null
       };
     default:
       return state;
@@ -140,6 +151,17 @@ export function deleteComponent(componentId) {
   };
 }
 
+export function moveComponent(dragComponent, dropComponentId, isNew) {
+  console.log(`moveComponent ${JSON.stringify(dragComponent)} ${dropComponentId}`);
+  return {
+    type: MOVE_COMPONENT,
+    dragComponent,
+    dropComponentId,
+    isNew
+  };
+}
+
+
 export function startToEditComponent({componentProps, componentPropTypes}) {
   return {
     type: START_TO_EDIT_COMPONENT,
@@ -148,12 +170,8 @@ export function startToEditComponent({componentProps, componentPropTypes}) {
   };
 }
 
-export function moveComponent(dragComponent, dropComponentId, isNew) {
-  console.log(`moveComponent ${JSON.stringify(dragComponent)} ${dropComponentId}`);
+export function stopEditingComponent() {
   return {
-    type: MOVE_COMPONENT,
-    dragComponent,
-    dropComponentId,
-    isNew
+    type: STOP_EDITING_COMPONENT
   };
 }

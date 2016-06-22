@@ -17,11 +17,11 @@ const componentSource = {
 
   beginDrag(props/* , monitor, component */) {
     // Return the data describing the dragged item
-    const item = {
-      ...allComponents[props.component].getComponentDefaultProps(),
+    const componentModule = allComponents[props.component];
+    const item = Object.assign({
       component: props.component,
       _isNew: true
-    };
+    }, componentModule.getComponentDefaultProps ? {...componentModule.getComponentDefaultProps()} : {});
     return item;
   }
 };

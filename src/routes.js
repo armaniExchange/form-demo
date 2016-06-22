@@ -12,6 +12,7 @@ import {
     Survey,
     NotFound,
     EditVirtualServer,
+    ApiTester,
     ComponentBuilder
   } from 'containers';
 
@@ -39,7 +40,7 @@ export default (store) => {
   return (
     <Route path="/" component={App}>
       { /* Home (main) route */ }
-      <IndexRoute component={ComponentBuilder}/>
+      <IndexRoute component={ComponentBuilder} breadcrumb="Component Builder"/>
 
       { /* Routes requiring login */ }
       <Route onEnter={requireLogin}>
@@ -54,11 +55,13 @@ export default (store) => {
       <Route path="widgets" component={Widgets}/>
 
       { /* ZLI Routes */ }
-      <Route path="slb" component={EditVirtualServer}>
-        <Route path="vs" component={EditVirtualServer}/>
+      <Route path="slb" component={EditVirtualServer} breadcrumb="Virtual Server">
+        <Route path="vs" component={EditVirtualServer} breadcrumb="Virtual Server"/>
       </Route>
 
       <Route path="component-builder" component={ComponentBuilder} breadcrumb="Component Builder"/>
+      <Route path="tester" component={ApiTester}/>
+
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />
     </Route>

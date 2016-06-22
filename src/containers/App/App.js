@@ -37,7 +37,8 @@ export default class App extends Component {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
     logout: PropTypes.func.isRequired,
-    pushState: PropTypes.func.isRequired
+    pushState: PropTypes.func.isRequired,
+    routes: PropTypes.array
   };
 
   static contextTypes = {
@@ -54,9 +55,44 @@ export default class App extends Component {
     }
   }
 
+  getBreadcrumeName = (routes = []) => {
+    const lastIndex = routes.length > 0 ? routes.length - 1 : 0;
+    let name = 'no breadcrume name';
+
+    if (routes[lastIndex].breadcrumb) {
+      console.log('routes[lastIndex].breadcrumb');
+      name = routes[lastIndex].breadcrumb;
+    } else if (routes[lastIndex].indexRoute.breadcrumb) {
+      console.log('routes[lastIndex].indexRoute.breadcrumb');
+      name = routes[lastIndex].indexRoute.breadcrumb;
+    }
+
+    return (<h2>{name}</h2>);
+
+  };
+
   handleLogout = (event) => {
     event.preventDefault();
     this.props.logout();
+  };
+
+  renderPath = (routes = []) => {
+    const paths = [];
+
+    routes.forEach((route) => {
+      if (route.path !== '/') {
+        paths.push( (<li>{route.path}</li>));
+      }
+    });
+
+    return (
+      <ol className="breadcrumb">
+          <li>
+              <a href="#">Home</a>
+          </li>
+          {paths}
+      </ol>
+    );
   };
 
   render() {
@@ -331,19 +367,12 @@ export default class App extends Component {
                         </ul>
                     </nav>
                 </div>
-                {/* <div className="row wrapper border-bottom white-bg page-heading">
+                <div className="row wrapper border-bottom white-bg page-heading">
                     <div className="col-lg-9">
-                        <h2>Widgets</h2>
-                        <ol className="breadcrumb">
-                            <li>
-                                <a href="#">Home</a>
-                            </li>
-                            <li className="active">
-                                <strong>Widgets</strong>
-                            </li>
-                        </ol>
+                        {this.getBreadcrumeName(this.props.routes)}
+                        {this.renderPath(this.props.routes)}
                     </div>
-                </div> */}
+                </div>
                 <div className="wrapper wrapper-content animated fadeInRight">
                     <div>
                         {this.props.children}

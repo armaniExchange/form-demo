@@ -39,7 +39,7 @@ export default (store) => {
   return (
     <Route path="/" component={App}>
       { /* Home (main) route */ }
-      <IndexRoute component={ComponentBuilder}/>
+      <IndexRoute component={ComponentBuilder} breadcrumb="Component Builder"/>
 
       { /* Routes requiring login */ }
       <Route onEnter={requireLogin}>

@@ -37,7 +37,8 @@ export default class App extends Component {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
     logout: PropTypes.func.isRequired,
-    pushState: PropTypes.func.isRequired
+    pushState: PropTypes.func.isRequired,
+    routes: PropTypes.array
   };
 
   static contextTypes = {
@@ -57,6 +58,25 @@ export default class App extends Component {
   handleLogout = (event) => {
     event.preventDefault();
     this.props.logout();
+  };
+
+  renderPath = (routes = []) => {
+    const paths = [];
+
+    routes.forEach((route) => {
+      if (route.path !== '/') {
+        paths.push( (<li>{route.path}</li>));
+      }
+    });
+
+    return (
+      <ol className="breadcrumb">
+          <li>
+              <a href="#">Home</a>
+          </li>
+          {paths}
+      </ol>
+    );
   };
 
   render() {
@@ -331,19 +351,19 @@ export default class App extends Component {
                         </ul>
                     </nav>
                 </div>
-                {/* <div className="row wrapper border-bottom white-bg page-heading">
+                <div className="row wrapper border-bottom white-bg page-heading">
                     <div className="col-lg-9">
-                        <h2>Widgets</h2>
-                        <ol className="breadcrumb">
-                            <li>
-                                <a href="#">Home</a>
-                            </li>
-                            <li className="active">
-                                <strong>Widgets</strong>
-                            </li>
-                        </ol>
+                        <h2>{(() => {
+                          if (this.props.routes[0].breadcrumb) {
+                            return this.props.routes[0].breadcrumb;
+                          } else if (this.props.routes[0].indexRoute.breadcrumb) {
+                            return this.props.routes[0].indexRoute.breadcrumb;
+                          }
+                        })()}
+                        </h2>
+                        {this.renderPath(this.props.routes)}
                     </div>
-                </div> */}
+                </div>
                 <div className="wrapper wrapper-content animated fadeInRight">
                     <div>
                         {this.props.children}

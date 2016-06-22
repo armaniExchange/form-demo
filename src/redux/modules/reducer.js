@@ -9,9 +9,11 @@ import {reducer as form} from 'redux-form';
 import info from './info';
 import widgets from './widgets';
 import vs from './vs';
+import componentBuilder from './componentBuilder';
 
 export default combineReducers({
   routing: routerReducer,
+  componentBuilder,
   reduxAsyncConnect,
   auth,
   form,

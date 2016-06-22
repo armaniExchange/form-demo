@@ -16,3 +16,5 @@ export FormCreateToolbar from './FormCreateToolbar/FormCreateToolbar';
 export ComponentBuilderSidebar from './ComponentBuilderSidebar/ComponentBuilderSidebar';
 export ComponentBuilderSandbox from './ComponentBuilderSandbox/ComponentBuilderSandbox';
 export ComponentBuilderProperties from './ComponentBuilderProperties/ComponentBuilderProperties';
+export MyButton from './Button/Button';
+export ComponentCandidate from './ComponentCandidate/ComponentCandidate';

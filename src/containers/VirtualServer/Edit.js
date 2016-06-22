@@ -30,7 +30,6 @@ export default class VirtualServer extends Component {
   render() {
     return (
       <div className="container-fluid">
-        <h1>VirtualServer</h1>
         <Helmet title="VirtualServer"/>
         <div className="col-md-10">
           <VirtualServerForm onSubmit={this.handleSubmit}/>

@@ -21,12 +21,16 @@ export default class ComponentBuilder extends Component {
     sandboxValue: PropTypes.object,
     editingComponentProps: PropTypes.object,
     editingComponentPropTypes: PropTypes.object,
+    isEditingProps: PropTypes.bool,
+    editingComponentId: PropTypes.string,
     routes: PropTypes.array
   }
 
   render() {
     const {
       sandboxValue,
+      isEditingProps,
+      editingComponentId,
       editingComponentProps,
       editingComponentPropTypes
     } = this.props;
@@ -37,8 +41,9 @@ export default class ComponentBuilder extends Component {
           <Col xs={4}>
             <ComponentBuilderSidebar />
           </Col>
-          <Col xs={5}>
+          <Col xs={isEditingProps ? 5 : 8}>
             <ComponentBuilderSandbox
+              editingComponentId={editingComponentId}
               value={sandboxValue}
             />
             <textarea
@@ -47,12 +52,17 @@ export default class ComponentBuilder extends Component {
               value={JSON.stringify(sandboxValue, '\n', '  ')}
             />
           </Col>
-          <Col xs={3}>
-            <ComponentBuilderProperties
-              componentProps={editingComponentProps}
-              componentPropTypes={editingComponentPropTypes}
-            />
-          </Col>
+          {
+            isEditingProps && (
+              <Col xs={3}>
+                <ComponentBuilderProperties
+                  editingComponentId={editingComponentId}
+                  componentProps={editingComponentProps}
+                  componentPropTypes={editingComponentPropTypes}
+                />
+              </Col>
+            )
+          }
         </Row>
       </div>
     );

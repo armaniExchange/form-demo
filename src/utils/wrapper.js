@@ -13,11 +13,6 @@ import {
   moveComponent
 } from '../redux/modules/componentBuilder';
 
-
-/**
- * Specifies the drag source contract.
- * Only `beginDrag` function is required.
- */
 const componentSource = {
   isDragging(props, monitor) {
     return monitor.getItem().id === props.id;
@@ -56,6 +51,7 @@ export default function connectToWrap() {
     class Wrap extends Component {
       static propTypes = {
         componentId: PropTypes.string,
+        editingComponentId: PropTypes.string,
         connectDragSource: PropTypes.func,
         connectDropTarget: PropTypes.func,
         startToEditComponent: PropTypes.func,
@@ -88,11 +84,18 @@ export default function connectToWrap() {
       }
       render() {
         const styles = require('./wrapper.scss');
-        const { connectDragSource, connectDropTarget } = this.props;
-        const componentId = 'componentId: ' + this.props.componentId;
+        const {
+          connectDragSource,
+          connectDropTarget,
+          componentId,
+          editingComponentId
+        } = this.props;
+
+        const ComponentId = 'componentId: ' + componentId;
+        const isActive = componentId === editingComponentId;
         return connectDropTarget(connectDragSource(
-          <div className={ styles.wrapperp }>
-            <span>{ componentId }</span>
+          <div className={ styles[isActive ? 'wrapperp-active' : 'wrapperp-normal']}>
+            <span>{ ComponentId }</span>
             <i className="fa fa-cog {styles.edit}" onClick={::this.editProperties}/>
             <i className="fa fa-trash text-alert {styles.delete}" onClick={::this.deleteComponent}/>
             <WrappedComponent {...this.props} />

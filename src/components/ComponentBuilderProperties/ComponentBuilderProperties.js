@@ -7,14 +7,21 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import Button from 'react-bootstrap/lib/Button';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
-import { updateComponent } from '../../redux/modules/componentBuilder';
+import {
+  updateComponent,
+  stopEditingComponent
+} from '../../redux/modules/componentBuilder';
 
-@connect(null, { updateComponent })
+@connect(null, {
+  updateComponent,
+  stopEditingComponent
+})
 export default class ComponentBuilderProperties extends Component {
   static propTypes = {
     componentProps: PropTypes.object,
     componentPropTypes: PropTypes.object,
-    updateComponent: PropTypes.func
+    updateComponent: PropTypes.func,
+    stopEditingComponent: PropTypes.func,
   }
 
   state = {
@@ -46,7 +53,7 @@ export default class ComponentBuilderProperties extends Component {
   }
 
   onDismissComponentBuilderPrperties() {
-    console.log('onDismissComponentBuilderPrperties');
+    this.props.stopEditingComponent();
   }
 
   renderInput(propTypeName, propType, value) {
@@ -59,8 +66,6 @@ export default class ComponentBuilderProperties extends Component {
   }
 
   render() {
-    // ClassName
-    // Style
     const {
       componentPropTypes
     } = this.props;

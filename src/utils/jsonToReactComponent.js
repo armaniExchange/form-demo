@@ -1,7 +1,7 @@
 import React from 'react';
 
 const allComponents = require('components');
-const toComponent = (obj) => {
+const toComponent = (obj, props = {}) => {
   const {
     children,
     component
@@ -14,8 +14,8 @@ const toComponent = (obj) => {
       reactComponent = matchedComponent;
     }
   }
-  const childrenComponent = !children || typeof children === 'string' ? obj : (children || []).map(toComponent);
-  return React.createElement.apply(this, [reactComponent, obj, ...childrenComponent]);
+  const childrenComponent = !children || typeof children === 'string' ? obj : (children || []).map(item => toComponent(item, props));
+  return React.createElement.apply(this, [reactComponent, Object.assign({}, props, obj), ...childrenComponent]);
 };
 
 export default toComponent;

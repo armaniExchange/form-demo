@@ -58,6 +58,7 @@ export default (store) => {
         <Route path="vs" component={EditVirtualServer}/>
       </Route>
 
+      <Route path="component-builder" component={ComponentBuilder} breadcrumb="Component Builder"/>
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />
     </Route>

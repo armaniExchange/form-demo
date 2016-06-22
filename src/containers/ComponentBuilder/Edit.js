@@ -20,7 +20,8 @@ export default class ComponentBuilder extends Component {
   static propTypes = {
     sandboxValue: PropTypes.object,
     editingComponentProps: PropTypes.object,
-    editingComponentPropTypes: PropTypes.object
+    editingComponentPropTypes: PropTypes.object,
+    routes: PropTypes.array
   }
 
   render() {
@@ -29,7 +30,6 @@ export default class ComponentBuilder extends Component {
       editingComponentProps,
       editingComponentPropTypes
     } = this.props;
-
     return (
       <div className="container-fluid">
         <h1> Component Builder </h1>

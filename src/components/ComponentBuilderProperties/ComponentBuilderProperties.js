@@ -16,9 +16,14 @@ export default class ComponentBuilderProperties extends Component {
     updateComponent: PropTypes.func
   }
 
+  state = {
+    children: ''
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.componentProps) {
-      this.setState(nextProps.componentProps);
+    const { componentProps } = nextProps;
+    if (componentProps) {
+      this.setState(Object.assign({children: '', style: {}}, componentProps));
     }
   }
 
@@ -28,7 +33,6 @@ export default class ComponentBuilderProperties extends Component {
   }
 
   onInputChange(propType, event) {
-    console.log(propType, event);
     this.setState({
       [propType]: event.target.value
     });
@@ -43,6 +47,31 @@ export default class ComponentBuilderProperties extends Component {
       <Panel header={<span><i className="fa fa-gear" ariaHidden="true" />&nbsp;Properties</span>}>
         <Form horizontal>
           {
+            // <FormGroup>
+            //   <Col sm={6}>
+            //     Style
+            //   </Col>
+            //   <Col sm={6}>
+            //     <FormControl
+            //       type="style"
+            //       value={JSON.stringify(this.state.style)}
+            //       onChange={this.onInputChange.bind(this, 'style')}/>
+            //   </Col>
+            // </FormGroup>
+          }
+          <FormGroup>
+            <Col sm={6}>
+              Text
+            </Col>
+            <Col sm={6}>
+              <FormControl
+                type="text"
+                disable={typeof this.state.children !== 'string'}
+                value={this.state.children}
+                onChange={this.onInputChange.bind(this, 'children')}/>
+            </Col>
+          </FormGroup>
+          {
             Object.keys(componentPropTypes).map((item, index) => {
               return (
                 <FormGroup key={index}>
@@ -56,6 +85,7 @@ export default class ComponentBuilderProperties extends Component {
               );
             })
           }
+
           <FormGroup>
             <Col smOffset={2} sm={10}>
               <Button type="submit" bsStyle="success" onClick={::this.onUpdateComponentClick}>

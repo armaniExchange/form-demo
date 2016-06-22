@@ -14,8 +14,6 @@ const toComponent = (obj) => {
       reactComponent = matchedComponent;
     }
   }
-  console.log('children');
-  console.log(children);
   const childrenComponent = !children || typeof children === 'string' ? obj : (children || []).map(toComponent);
   return React.createElement.apply(this, [reactComponent, obj, ...childrenComponent]);
 };

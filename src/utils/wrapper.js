@@ -4,8 +4,6 @@ import {connect} from 'react-redux';
 import { DragSource as dragSource} from 'react-dnd';
 import DndTypes from '../constants/DndTypes';
 import {
-  // addComponent,
-  // updateComponent,
   startToEditComponent,
   deleteComponent
 } from '../redux/modules/componentBuilder';
@@ -76,10 +74,6 @@ export default function connectToWrap() {
       }
 
       editProperties() {
-        console.log('editProperties');
-        console.log('componentId');
-        console.log(this.props.componentId);
-        console.log(Object.keys(WrappedComponent.propTypes));
         this.props.startToEditComponent({
           componentPropTypes: WrappedComponent.propTypes,
           componentProps: this.props

@@ -60,7 +60,6 @@ export default [
     type: 'basic',
     name: 'Label',
     component: 'Label',
-    children: 'Label ...',
     description: ''
   },
   {

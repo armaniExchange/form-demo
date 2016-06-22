@@ -1,17 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { IndexLink } from 'react-router';
-import { LinkContainer } from 'react-router-bootstrap';
-import Navbar from 'react-bootstrap/lib/Navbar';
-import Nav from 'react-bootstrap/lib/Nav';
-import NavItem from 'react-bootstrap/lib/NavItem';
-import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
-import { InfoBar } from 'components';
 import { push } from 'react-router-redux';
-import config from '../../config';
 import { asyncConnect } from 'redux-async-connect';
+import { Link } from 'react-router';
+
+// import { IndexLink } from 'react-router';
+// import { LinkContainer } from 'react-router-bootstrap';
+// import config from '../../config';
+// import Helmet from 'react-helmet';
+// import Navbar from 'react-bootstrap/lib/Navbar';
+// import Nav from 'react-bootstrap/lib/Nav';
+// import NavItem from 'react-bootstrap/lib/NavItem';
+// import { InfoBar } from 'components';
 
 @asyncConnect([{
   promise: ({store: {dispatch, getState}}) => {
@@ -58,72 +60,297 @@ export default class App extends Component {
   };
 
   render() {
-    const {user} = this.props;
-    const styles = require('./App.scss');
+    // const {user} = this.props;
+    // const styles = require('./App.scss');
 
     return (
-      <div className={styles.app}>
-        <Helmet {...config.app.head}/>
-        <Navbar fixedTop>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <IndexLink to="/" activeStyle={{color: '#33e0ff'}}>
-                <div className={styles.brand}/>
-                <span>{config.app.title}</span>
-              </IndexLink>
-            </Navbar.Brand>
-            <Navbar.Toggle/>
-          </Navbar.Header>
+        <div id="wrapper">
+            <nav className="navbar-default navbar-static-side" role="navigation">
+                <div className="sidebar-collapse">
+                    <ul className="nav metismenu" id="side-menu">
+                        <li className="nav-header">
+                            <div className="dropdown profile-element"> <span>
+                                <img alt="image" className="img-circle" style={{width: '70', height: '54'}} src="/img/logo-header.png" />
+                                 </span>
+                                <a data-toggle="dropdown" className="dropdown-toggle" href="#">
+                                    <span className="clear">
+                                        <span className="block m-t-xs">
+                                            <strong className="font-bold">TH 3030S</strong>
+                                        </span>
+                                        <span className="text-muted text-xs block">
+                                            4.1.1 build 94
+                                        </span>
+                                    </span>
+                                 </a>
+                            </div>
+                            <div className="logo-element">
+                                IN+
+                            </div>
+                        </li>
+                        <li className="active">
+                            <a href="#">
+                                <i className="fa fa-th-large"></i>
+                                <span className="nav-label">Dashboards</span>
+                                <span className="fa arrow"></span>
+                            </a>
+                            <ul className="nav nav-second-level">
+                                <li>
+                                    <Link activeClassName="active" to="/">System</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">ADC</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Services Map</Link>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i className="fa fa-magic"></i>
+                                <span className="nav-label">ADC</span>
+                                <span className="fa arrow"></span>
+                            </a>
+                            <ul className="nav nav-second-level">
+                                <li>
+                                    <Link activeClassName="active" to="/">SLB</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Health Monitors</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Templates</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">SSL Management</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">aFleX</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">BW-Lists</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">IP Source NAT</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Statistics</Link>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i className="fa fa-globe"></i>
+                                <span className="nav-label">GSLB</span>
+                                <span className="fa arrow"></span>
+                            </a>
+                            <ul className="nav nav-second-level">
+                                <li>
+                                    <Link activeClassName="active" to="/">FQDNs</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Sites</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Service IPs</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Policies</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Geo Location</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">IP List</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Group</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Service Groups</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Templates</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Global</Link>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i className="fa fa-key"></i>
+                                <span className="nav-label">Security</span>
+                                <span className="fa arrow"></span>
+                            </a>
+                            <ul className="nav nav-second-level">
+                                <li>
+                                    <Link activeClassName="active" to="/">WAF</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">DC Firewall</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">SSLi</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Forward Proxy</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Access List</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">DDos</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">IPsec VPN</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Object</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Object Group</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Web Categories</Link>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i className="fa fa-cloud"></i>
+                                <span className="nav-label">Network</span>
+                                <span className="fa arrow"></span>
+                            </a>
+                            <ul className="nav nav-second-level">
+                                <li>
+                                    <Link activeClassName="active" to="/">Interfaces</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Trunk</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">LACP</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">VLAN</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">ARP</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Routes</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">BPDU Fwd Groups</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">MDLB</Link>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i className="fa fa-wrench"></i>
+                                <span className="nav-label">System</span>
+                                <span className="fa arrow"></span>
+                            </a>
+                            <ul className="nav nav-second-level">
+                                <li>
+                                    <Link activeClassName="active" to="/">Settings</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Admin</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Maintenance</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Diagnostics</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Monitoring</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">aVCS</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">VRRP-A</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">System Log</Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/">Getting Started</Link>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div id="page-wrapper" className="gray-bg dashbard-1">
+                <div className="row border-bottom">
+                    <nav className="navbar navbar-static-top" role="navigation" style={{marginBottom: '0'}}>
+                        <div className="navbar-header">
+                            <a className="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#">
+                                <i className="fa fa-bars"></i>
+                            </a>
+                        </div>
+                        <ul className="nav navbar-top-links navbar-right">
+                            <li>
+                                <a href="#">
+                                    <i className="fa fa-users"></i>Partition: shared
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i className="fa fa-globe fa-fw"></i> Language
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i className="fa fa-life-ring"></i> Showtech
+                                </a>
+                            </li>
 
-          <Navbar.Collapse eventKey={0}>
-            <Nav navbar>
-              {user && <LinkContainer to="/chat">
-                <NavItem eventKey={1}>Chat</NavItem>
-              </LinkContainer>}
-
-              <LinkContainer to="/widgets">
-                <NavItem eventKey={2}>Widgets</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/survey">
-                <NavItem eventKey={3}>Survey</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/about">
-                <NavItem eventKey={4}>About Us</NavItem>
-              </LinkContainer>
-
-              {!user &&
-              <LinkContainer to="/login">
-                <NavItem eventKey={5}>Login</NavItem>
-              </LinkContainer>}
-              {user &&
-              <LinkContainer to="/logout">
-                <NavItem eventKey={6} className="logout-link" onClick={this.handleLogout}>
-                  Logout
-                </NavItem>
-              </LinkContainer>}
-            </Nav>
-            {user &&
-            <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.name}</strong>.</p>}
-            <Nav navbar pullRight>
-              <NavItem eventKey={1} target="_blank" title="View on Github" href="https://github.com/erikras/react-redux-universal-hot-example">
-                <i className="fa fa-github"/>
-              </NavItem>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-
-        <div className={styles.appContent}>
-          {this.props.children}
+                            <li>
+                                <a href="#">
+                                    <i className="fa fa-floppy-o"></i> Save
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i className="fa fa-user"></i> Admin
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i className="fa fa-sign-out"></i> Log out
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                {/* <div className="row wrapper border-bottom white-bg page-heading">
+                    <div className="col-lg-9">
+                        <h2>Widgets</h2>
+                        <ol className="breadcrumb">
+                            <li>
+                                <a href="#">Home</a>
+                            </li>
+                            <li className="active">
+                                <strong>Widgets</strong>
+                            </li>
+                        </ol>
+                    </div>
+                </div> */}
+                <div className="wrapper wrapper-content animated fadeInRight">
+                    <div>
+                        {this.props.children}
+                    </div>
+                </div>
+            </div>
         </div>
-        <InfoBar/>
-
-        <div className="well text-center">
-          Have questions? Ask for help <a
-          href="https://github.com/erikras/react-redux-universal-hot-example/issues"
-          target="_blank">on Github</a> or in the <a
-          href="https://discord.gg/0ZcbPKXt5bZZb1Ko" target="_blank">#react-redux-universal</a> Discord channel.
-        </div>
-      </div>
     );
   }
 }

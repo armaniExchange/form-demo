@@ -45,12 +45,24 @@ export default class Html extends Component {
           {/* outputs a <style/> tag with all bootstrap styles + App.scss + it could be CurrentPage.scss. */}
           {/* can smoothen the initial style flash (flicker) on page load in development mode. */}
           {/* ideally one could also include here the style for the current page (Home.scss, About.scss, etc) */}
-          { Object.keys(assets.styles).length === 0 ? <style dangerouslySetInnerHTML={{__html: require('../theme/bootstrap.config.js') + require('../containers/App/App.scss')._style}}/> : null }
+
+          {/* Object.keys(assets.styles).length === 0 ? <style dangerouslySetInnerHTML={{__html: require('../theme/bootstrap.config.js') + require('../containers/App/App.scss')._style}}/> : null */}
+
         </head>
-        <body>
+        <body className="pace-done">
+          <link href="/css/animate.css" rel="stylesheet" type="text/css" charSet="UTF-8"/>
+          <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" charSet="UTF-8"/>
+          <link href="/css/style.css" rel="stylesheet" type="text/css" charSet="UTF-8"/>
           <div id="content" dangerouslySetInnerHTML={{__html: content}}/>
           <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(store.getState())};`}} charSet="UTF-8"/>
           <script src={assets.javascript.main} charSet="UTF-8"/>
+          <script src="/js/jquery-2.1.1.js" type="text/javascript" charSet="UTF-8" />
+          <script src="/js/jquery-ui-1.10.4.min.js" type="text/javascript" charSet="UTF-8" />
+          <script src="/js/bootstrap.min.js" type="text/javascript" charSet="UTF-8" />
+
+          <script src="/js/plugins/metisMenu/jquery.metisMenu.js" type="text/javascript" charSet="UTF-8" />
+
+          <script src="/js/inspinia.js" type="text/javascript" charSet="UTF-8" />
         </body>
       </html>
     );

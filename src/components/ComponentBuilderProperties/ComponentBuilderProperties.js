@@ -24,14 +24,14 @@ export default class ComponentBuilderProperties extends Component {
     stopEditingComponent: PropTypes.func,
   }
 
-  state = {
-    children: ''
+  constructor(props) {
+    super(props);
+    this.state = this.getStateFromProps(props);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { componentProps } = nextProps;
-    if (componentProps) {
-      this.setState(Object.assign({children: '', style: {}}, componentProps));
+    if (nextProps.componentProps) {
+      this.setState(this.getStateFromProps(nextProps));
     }
   }
 
@@ -54,6 +54,13 @@ export default class ComponentBuilderProperties extends Component {
 
   onDismissComponentBuilderPrperties() {
     this.props.stopEditingComponent();
+  }
+
+  getStateFromProps(props) {
+    const { componentProps } = props;
+    if (componentProps) {
+      return Object.assign({children: '', style: {}}, componentProps);
+    }
   }
 
   renderInput(propTypeName, propType, value) {

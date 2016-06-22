@@ -9,6 +9,7 @@ import {reducer as form} from 'redux-form';
 import info from './info';
 import widgets from './widgets';
 import vs from './vs';
+import apiTester from './apiTester';
 import componentBuilder from './componentBuilder';
 
 export default combineReducers({
@@ -24,5 +25,6 @@ export default combineReducers({
   }),
   info,
   widgets,
-  vs
+  vs,
+  apiTester
 });

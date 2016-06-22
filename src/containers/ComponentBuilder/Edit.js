@@ -36,7 +36,6 @@ export default class ComponentBuilder extends Component {
     } = this.props;
     return (
       <div className="container-fluid">
-        <h1> Component Builder </h1>
         <Row>
           <Col xs={4}>
             <ComponentBuilderSidebar />

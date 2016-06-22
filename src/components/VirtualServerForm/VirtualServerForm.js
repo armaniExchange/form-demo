@@ -13,7 +13,7 @@ function asyncValidate(data, dispatch, {isValidEmail}) {
   }
   return isValidEmail(data);
 }
-
+// use react anything sortable
 @sortable
 class SortableItem extends React.Component {
   static propTypes = {

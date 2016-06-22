@@ -39,7 +39,7 @@ export default class ComponentBuilderSandbox extends Component {
 
     return connectDropTarget(
       <div>
-        <Panel>
+        <Panel header={<span><i className="fa fa-pencil-square-o" ariaHidden="true" />&nbsp;Panel</span>}>
           {jsonToReactComponent(value)}
         </Panel>
         <Button bsStyle="primary" onClick={(event)=>event.preventDefault()}>

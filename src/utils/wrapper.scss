@@ -7,6 +7,13 @@
   position: relative;
   padding-top: 30px;
 
+  span {
+    opacity: 0;
+    position: absolute;
+    z-index: 2;
+    top: 6px;
+  }
+
   i {
     opacity: 0;
     position: absolute;
@@ -18,12 +25,12 @@
     }
   }
 
-  i:nth-child(1) {
+  i:nth-child(2) {
     right: 25px;
     color: #7777e9;
   }
 
-  i:nth-child(2) {
+  i:nth-child(3) {
     right: 10px;
     color: #f01111;
   }
@@ -32,6 +39,10 @@
     border: 1px dashed #888;
 
     i {
+      opacity: 1;
+    }
+
+    span {
       opacity: 1;
     }
   }

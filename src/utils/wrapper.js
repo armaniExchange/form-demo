@@ -1,11 +1,16 @@
 import React, {Component, PropTypes} from 'react';
 // import Panel from 'react-bootstrap/lib/Panel';
 import {connect} from 'react-redux';
-import { DragSource as dragSource} from 'react-dnd';
+import {
+  DragSource as dragSource,
+  DropTarget as dropTarget
+} from 'react-dnd';
 import DndTypes from '../constants/DndTypes';
 import {
   startToEditComponent,
-  deleteComponent
+  addComponent,
+  deleteComponent,
+  moveComponent
 } from '../redux/modules/componentBuilder';
 
 
@@ -15,60 +20,48 @@ import {
  */
 const componentSource = {
   isDragging(props, monitor) {
-    // If your component gets unmounted while dragged
-    // (like a card in Kanban board dragged between lists)
-    // you can implement something like this to keep its
-    // appearance dragged:
     return monitor.getItem().id === props.id;
   },
 
   beginDrag(props/* , monitor, component */) {
-    // Return the data describing the dragged item
-    const item = { id: props.id };
+    const item = props;
     return item;
   },
-
-  endDrag(props, monitor, /* component */) {
-    if (!monitor.didDrop()) {
-      // You can check whether the drop was successful
-      // or if the drag ended but nobody handled the drop
-      return;
-    }
-
-    // When dropped on a compatible target, do something.
-    // Read the original dragged item from getItem():
-    // const item = monitor.getItem();
-
-    // // You may also read the drop result from the drop target
-    // // that handled the drop, if it returned an object from
-    // // its drop() method.
-    // const dropResult = monitor.getDropResult();
-
-    // This is a good place to call some Flux action
-    // CardActions.moveCardToList(item.id, dropResult.listId);
+};
+const componentTarget = {
+  drop(props, monitor, /* component */) {
+    const item = monitor.getItem();
+    props.moveComponent(Object.assign({}, item, { _isNew: false }), props.componentId, item._isNew);
   }
 };
 
 export default function connectToWrap() {
   return (WrappedComponent) => {
     /* eslint-disable */
+    @connect(null, {
+      startToEditComponent,
+      deleteComponent,
+      moveComponent,
+      addComponent
+    })
     @dragSource(DndTypes.COMPONENT, componentSource, (dragConnect, monitor) => ({
       connectDragSource: dragConnect.dragSource(),
       isDragging: monitor.isDragging(),
     }))
-    @connect(null, {
-      startToEditComponent,
-      deleteComponent
-    })
+    @dropTarget(DndTypes.COMPONENT, componentTarget, (connect, monitor) => ({
+      connectDropTarget: connect.dropTarget(),
+
+    }))
     /* eslint-enable */
     class Wrap extends Component {
       static propTypes = {
         componentId: PropTypes.string,
         connectDragSource: PropTypes.func,
+        connectDropTarget: PropTypes.func,
         startToEditComponent: PropTypes.func,
-        deleteComponent: PropTypes.func
+        deleteComponent: PropTypes.func,
+        moveComponent: PropTypes.func
       }
-
 
       deleteComponent() {
         this.props.deleteComponent(this.props.componentId);
@@ -84,7 +77,7 @@ export default function connectToWrap() {
       renderTitle() {
         return (
           <div >
-            Text
+            componentId: {this.props.componentId}
             <div className="pull-right">
               <i className="fa fa-cog" onClick={::this.editProperties}/>
               &nbsp;
@@ -94,15 +87,17 @@ export default function connectToWrap() {
         );
       }
       render() {
-        const { connectDragSource } = this.props;
         const styles = require('./wrapper.scss');
-        return connectDragSource(
+        const { connectDragSource, connectDropTarget } = this.props;
+        const componentId = 'componentId: ' + this.props.componentId;
+        return connectDropTarget(connectDragSource(
           <div className={ styles.wrapperp }>
+            <span>{ componentId }</span>
             <i className="fa fa-cog {styles.edit}" onClick={::this.editProperties}/>
             <i className="fa fa-trash text-alert {styles.delete}" onClick={::this.deleteComponent}/>
             <WrappedComponent {...this.props} />
           </div>
-        );
+        ));
       }
     }
     return Wrap;

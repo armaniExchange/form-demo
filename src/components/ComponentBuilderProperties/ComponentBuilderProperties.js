@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/lib/Form';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import Button from 'react-bootstrap/lib/Button';
+import Checkbox from 'react-bootstrap/lib/Checkbox';
 import { updateComponent } from '../../redux/modules/componentBuilder';
 
 @connect(null, { updateComponent })
@@ -32,17 +33,31 @@ export default class ComponentBuilderProperties extends Component {
     this.props.updateComponent(this.props.componentProps.componentId, this.state);
   }
 
-  onInputChange(propType, event) {
+  onInputChange(propTypeName, event) {
     this.setState({
-      [propType]: event.target.value
+      [propTypeName]: event.target.value
     });
+  }
+
+  onCheckBoxChange(propTypeName, event) {
+    this.setState({
+      [propTypeName]: event.target.checked
+    });
+  }
+
+  renderInput(propTypeName, propType, value) {
+    if (propType === PropTypes.bool) {
+      return <Checkbox defaultChecked={value} onChange={this.onCheckBoxChange.bind(this, propTypeName)}/>;
+    } else if (propType === PropTypes.number) {
+      return <FormControl type="number" value={value} onChange={this.onInputChange.bind(this, propTypeName)}/>;
+    }
+    return <FormControl type="text" value={value} onChange={this.onInputChange.bind(this, propTypeName)}/>;
   }
 
   render() {
     const {
       componentPropTypes
     } = this.props;
-
     return (
       <Panel header={<span><i className="fa fa-gear" ariaHidden="true" />&nbsp;Properties</span>}>
         <Form horizontal>
@@ -72,14 +87,16 @@ export default class ComponentBuilderProperties extends Component {
             </Col>
           </FormGroup>
           {
-            Object.keys(componentPropTypes).map((item, index) => {
+            Object.keys(componentPropTypes).map((propTypeName, index) => {
               return (
                 <FormGroup key={index}>
                 <Col sm={6}>
-                  {item}
+                  {propTypeName}
                 </Col>
                 <Col sm={6}>
-                  <FormControl type="text" value={this.state[item]} onChange={this.onInputChange.bind(this, item)}/>
+                  {
+                    this.renderInput(propTypeName, componentPropTypes[propTypeName], this.state[propTypeName])
+                  }
                 </Col>
                 </FormGroup>
               );

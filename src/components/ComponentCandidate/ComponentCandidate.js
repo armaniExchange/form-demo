@@ -3,6 +3,8 @@ import { DragSource as dragSource} from 'react-dnd';
 import DndTypes from '../../constants/DndTypes';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 
+import './ComponentCandidate.css';
+
 
 /**
  * Specifies the drag source contract.

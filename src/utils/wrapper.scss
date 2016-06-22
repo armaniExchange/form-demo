@@ -1,0 +1,38 @@
+
+.wrapperp {
+  margin: 5px;
+  padding: 10px;
+  overflow: overlay;
+  border: 1px dashed #ddd;
+  position: relative;
+  padding-top: 30px;
+
+  i {
+    opacity: 0;
+    position: absolute;
+    z-index: 2;
+    top: 6px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  i:nth-child(1) {
+    right: 25px;
+    color: #7777e9;
+  }
+
+  i:nth-child(2) {
+    right: 10px;
+    color: #f01111;
+  }
+
+  &:hover {
+    border: 1px dashed #888;
+
+    i {
+      opacity: 1;
+    }
+  }
+}

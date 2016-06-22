@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import Panel from 'react-bootstrap/lib/Panel';
+// import Panel from 'react-bootstrap/lib/Panel';
 import {connect} from 'react-redux';
 import { DragSource as dragSource} from 'react-dnd';
 import DndTypes from '../constants/DndTypes';
@@ -7,6 +7,7 @@ import {
   startToEditComponent,
   deleteComponent
 } from '../redux/modules/componentBuilder';
+
 
 /**
  * Specifies the drag source contract.
@@ -94,11 +95,12 @@ export default function connectToWrap() {
       }
       render() {
         const { connectDragSource } = this.props;
+        const styles = require('./wrapper.scss');
         return connectDragSource(
-          <div>
-            <Panel header={this.renderTitle()}>
-              <WrappedComponent {...this.props} />
-            </Panel>
+          <div className={ styles.wrapperp }>
+            <i className="fa fa-cog {styles.edit}" onClick={::this.editProperties}/>
+            <i className="fa fa-trash text-alert {styles.delete}" onClick={::this.deleteComponent}/>
+            <WrappedComponent {...this.props} />
           </div>
         );
       }

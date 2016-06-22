@@ -45,6 +45,10 @@ export default class ComponentBuilderProperties extends Component {
     });
   }
 
+  onDismissComponentBuilderPrperties() {
+    console.log('onDismissComponentBuilderPrperties');
+  }
+
   renderInput(propTypeName, propType, value) {
     if (propType === PropTypes.bool) {
       return <Checkbox defaultChecked={value} onChange={this.onCheckBoxChange.bind(this, propTypeName)}/>;
@@ -55,25 +59,24 @@ export default class ComponentBuilderProperties extends Component {
   }
 
   render() {
+    // ClassName
+    // Style
     const {
       componentPropTypes
     } = this.props;
+    const PanelHeader = (
+      <span>
+        <i className="fa fa-gear" ariaHidden="true" />&nbsp;Properties
+        <i className="fa fa-times pull-right"
+          style={{cursor: 'pointer'}}
+          onClick={::this.onDismissComponentBuilderPrperties}
+          ariaHidden="true" />
+      </span>
+    );
+
     return (
-      <Panel header={<span><i className="fa fa-gear" ariaHidden="true" />&nbsp;Properties</span>}>
+      <Panel header={PanelHeader}>
         <Form horizontal>
-          {
-            // <FormGroup>
-            //   <Col sm={6}>
-            //     Style
-            //   </Col>
-            //   <Col sm={6}>
-            //     <FormControl
-            //       type="style"
-            //       value={JSON.stringify(this.state.style)}
-            //       onChange={this.onInputChange.bind(this, 'style')}/>
-            //   </Col>
-            // </FormGroup>
-          }
           <FormGroup>
             <Col sm={6}>
               Text

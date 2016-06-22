@@ -79,9 +79,9 @@ export default function connectToWrap() {
           <div >
             componentId: {this.props.componentId}
             <div className="pull-right">
-              <i className="fa fa-cog" onClick={::this.editProperties}/>
-              &nbsp;
-              <i className="fa fa-trash text-alert" onClick={::this.deleteComponent}/>
+              <i className="fa fa-cog" style={{cursor: 'pointer'}} onClick={::this.editProperties}/>
+              &nbsp;&nbsp;&nbsp;
+              <i className="fa fa-trash text-alert" style={{cursor: 'pointer'}} onClick={::this.deleteComponent}/>
             </div>
           </div>
         );

@@ -54,8 +54,8 @@ export default (store) => {
       <Route path="widgets" component={Widgets}/>
 
       { /* ZLI Routes */ }
-      <Route path="slb" component={EditVirtualServer}>
-        <Route path="vs" component={EditVirtualServer}/>
+      <Route path="slb" component={EditVirtualServer} breadcrumb="Virtual Server">
+        <Route path="vs" component={EditVirtualServer} breadcrumb="Virtual Server"/>
       </Route>
 
       <Route path="component-builder" component={ComponentBuilder} breadcrumb="Component Builder"/>

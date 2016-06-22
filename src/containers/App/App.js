@@ -55,6 +55,22 @@ export default class App extends Component {
     }
   }
 
+  getBreadcrumeName = (routes = []) => {
+    const lastIndex = routes.length > 0 ? routes.length - 1 : 0;
+    let name = 'no breadcrume name';
+
+    if (routes[lastIndex].breadcrumb) {
+      console.log('routes[lastIndex].breadcrumb');
+      name = routes[lastIndex].breadcrumb;
+    } else if (routes[lastIndex].indexRoute.breadcrumb) {
+      console.log('routes[lastIndex].indexRoute.breadcrumb');
+      name = routes[lastIndex].indexRoute.breadcrumb;
+    }
+
+    return (<h2>{name}</h2>);
+
+  };
+
   handleLogout = (event) => {
     event.preventDefault();
     this.props.logout();
@@ -353,14 +369,7 @@ export default class App extends Component {
                 </div>
                 <div className="row wrapper border-bottom white-bg page-heading">
                     <div className="col-lg-9">
-                        <h2>{(() => {
-                          if (this.props.routes[0].breadcrumb) {
-                            return this.props.routes[0].breadcrumb;
-                          } else if (this.props.routes[0].indexRoute.breadcrumb) {
-                            return this.props.routes[0].indexRoute.breadcrumb;
-                          }
-                        })()}
-                        </h2>
+                        {this.getBreadcrumeName(this.props.routes)}
                         {this.renderPath(this.props.routes)}
                     </div>
                 </div>

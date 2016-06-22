@@ -59,12 +59,12 @@ export default class App extends Component {
     const lastIndex = routes.length > 0 ? routes.length - 1 : 0;
     let name = 'no breadcrume name';
 
-    if (routes[lastIndex].breadcrumb) {
-      console.log('routes[lastIndex].breadcrumb');
-      name = routes[lastIndex].breadcrumb;
-    } else if (routes[lastIndex].indexRoute.breadcrumb) {
-      console.log('routes[lastIndex].indexRoute.breadcrumb');
-      name = routes[lastIndex].indexRoute.breadcrumb;
+    if (routes[lastIndex]) {
+      if (routes[lastIndex].hasOwnProperty('breadcrumb')) {
+        name = routes[lastIndex].breadcrumb;
+      } else if (routes[lastIndex].hasOwnProperty('indexRoute')) {
+        name = routes[lastIndex].indexRoute.breadcrumb;
+      }
     }
 
     return (<h2>{name}</h2>);
@@ -79,9 +79,9 @@ export default class App extends Component {
   renderPath = (routes = []) => {
     const paths = [];
 
-    routes.forEach((route) => {
+    routes.forEach((route, index) => {
       if (route.path !== '/') {
-        paths.push( (<li>{route.path}</li>));
+        paths.push( (<li key={index}>{route.path}</li>));
       }
     });
 

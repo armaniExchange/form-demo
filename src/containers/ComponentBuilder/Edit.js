@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 
-import { RightSideHelper } from '../../components';
+import { RightSideHelper } from 'components';
 
 import {
   ComponentBuilderSidebar,

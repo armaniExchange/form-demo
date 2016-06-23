@@ -7,6 +7,8 @@ import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 
+import { RightSideHelper } from '../../components';
+
 import {
   ComponentBuilderSidebar,
   ComponentBuilderSandbox,
@@ -66,7 +68,7 @@ export default class ComponentBuilder extends Component {
           <Col xs={4}>
             <ComponentBuilderSidebar />
           </Col>
-          <Col xs={isEditingProps ? 5 : 8}>
+          <Col xs={8}>
             <ComponentBuilderSandbox
               editingComponentId={editingComponentId}
               enablePreview={enablePreview}
@@ -87,17 +89,13 @@ export default class ComponentBuilder extends Component {
               </Button>
             </ButtonToolbar>
           </Col>
-          {
-            isEditingProps && (
-              <Col xs={3}>
-                <ComponentBuilderProperties
-                  editingComponentId={editingComponentId}
-                  componentProps={editingComponentProps}
-                  componentPropTypes={editingComponentPropTypes}
-                />
-              </Col>
-            )
-          }
+          <RightSideHelper show={isEditingProps}>
+            <ComponentBuilderProperties
+              editingComponentId={editingComponentId}
+              componentProps={editingComponentProps}
+              componentPropTypes={editingComponentPropTypes}
+            />
+          </RightSideHelper>
         </Row>
         <ComponentBuilderExportModal
           show={this.state.showPropertiesModal}

@@ -105,9 +105,10 @@ export default class App extends Component {
                 <div className="sidebar-collapse">
                     <ul className="nav metismenu" id="side-menu">
                         <li className="nav-header">
-                            <div className="dropdown profile-element"> <span>
-                                <img alt="image" className="img-circle" style={{width: '70', height: '54'}} src="/img/logo-header.png" />
-                                 </span>
+                            <div className="dropdown profile-element">
+                                <span>
+                                    <img alt="image" className="img-circle" style={{width: '70'}} src="/img/logo-header.png" />
+                                </span>
                                 <a data-toggle="dropdown" className="dropdown-toggle" href="#">
                                     <span className="clear">
                                         <span className="block m-t-xs">
@@ -120,7 +121,7 @@ export default class App extends Component {
                                  </a>
                             </div>
                             <div className="logo-element">
-                                IN+
+                                <img alt="image" className="img-circle" style={{width: '50'}} src="/img/logo-header.png" />
                             </div>
                         </li>
                         <li className="active">

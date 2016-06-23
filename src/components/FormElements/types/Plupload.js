@@ -1,11 +1,9 @@
 import _ from 'lodash';
 import React, {Component, PropTypes} from 'react';
-import connectToWrap from './Wrap';
 import {change, changeWithKey} from 'redux-form';
 import {Button, Table} from 'react-bootstrap';
 import Plupload from 'react-plupload';
 
-@connectToWrap()
 class PluploadType extends Component {
 
   static propTypes = {

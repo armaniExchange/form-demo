@@ -17,6 +17,7 @@ export ComponentBuilderSidebar from './ComponentBuilderSidebar/ComponentBuilderS
 export ComponentBuilderSandbox from './ComponentBuilderSandbox/ComponentBuilderSandbox';
 export ComponentBuilderProperties from './ComponentBuilderProperties/ComponentBuilderProperties';
 export ComponentCandidate from './ComponentCandidate/ComponentCandidate';
+export ComponentBuilderExportModal from './ComponentBuilderExportModal/ComponentBuilderExportModal';
 
 export MyButton from './Button/Button';
 

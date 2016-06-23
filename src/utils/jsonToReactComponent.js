@@ -1,7 +1,11 @@
 import React from 'react';
+import connectToWrap from '../utils/wrapper';
 
 const allComponents = require('components');
-const toComponent = (obj, props = {}) => {
+let wrappedComponents;
+wrappedComponents = {};
+
+const toComponent = (obj, enableWrap, props = {}) => {
   const {
     children,
     component
@@ -14,7 +18,13 @@ const toComponent = (obj, props = {}) => {
       reactComponent = matchedComponent;
     }
   }
-  const childrenComponent = !children || typeof children === 'string' ? obj : (children || []).map(item => toComponent(item, props));
+  if (enableWrap && obj.componentId !== 'root') {
+    if (!wrappedComponents[component]) {
+      wrappedComponents[component] = connectToWrap()(reactComponent);
+    }
+    reactComponent = wrappedComponents[component];
+  }
+  const childrenComponent = !children || typeof children === 'string' ? obj : (children || []).map(item => toComponent(item, enableWrap, props));
   return React.createElement.apply(this, [reactComponent, Object.assign({}, props, obj), ...childrenComponent]);
 };
 

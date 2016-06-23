@@ -5,10 +5,6 @@ import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 
 import './ComponentCandidate.css';
 
-/**
- * Specifies the drag source contract.
- * Only `beginDrag` function is required.
- */
 const allComponents = require('components');
 const componentSource = {
   isDragging(props, monitor) {
@@ -16,7 +12,6 @@ const componentSource = {
   },
 
   beginDrag(props/* , monitor, component */) {
-    // Return the data describing the dragged item
     const componentModule = allComponents[props.component];
     const item = Object.assign({
       component: props.component,
@@ -27,10 +22,7 @@ const componentSource = {
 };
 
 @dragSource(DndTypes.COMPONENT, componentSource, (connect, monitor) => ({
-  // Call this function inside render()
-  // to let React DnD handle the drag events:
   connectDragSource: connect.dragSource(),
-  // You can ask the monitor about the current drag state:
   isDragging: monitor.isDragging()
 }))
 

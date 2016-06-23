@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import React, {Component, PropTypes} from 'react';
 import {change, changeWithKey} from 'redux-form';
-import connectToWrap from './Wrap';
 
-@connectToWrap()
 class CheckboxListTypeiOs extends Component {
 
   static propTypes = {

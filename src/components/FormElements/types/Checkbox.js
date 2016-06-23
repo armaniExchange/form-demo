@@ -1,10 +1,8 @@
 import _ from 'lodash';
 import React, {Component, PropTypes} from 'react';
 import {change, changeWithKey} from 'redux-form';
-import connectToWrap from './Wrap';
 import {Alert, Checkbox, Col, FormControl, Row} from 'react-bootstrap';
 
-@connectToWrap()
 class CheckboxType extends Component {
 
   static propTypes = {

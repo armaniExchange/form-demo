@@ -31,6 +31,7 @@ export FormControl from './FormComponents/FormControl';
 export Input from './FormComponents/Input';
 export Label from './FormComponents/Label';
 export Radio from './FormComponents/Radio';
+export PageHeader from './FormComponents/PageHeader';
 
 /* Form Field Components */
 export CheckboxField from './FormFields/CheckboxField';
@@ -38,6 +39,7 @@ export InputField from './FormFields/InputField';
 export RadioField from './FormFields/RadioField';
 export SelectField from './FormFields/SelectField';
 export SubmitField from './FormFields/SubmitField';
+export RegularToolBarField from './FormFields/RegularToolBarField';
 
 /* Layout Components */
 export RightSideHelper from './Layouts/RightSideHelper';

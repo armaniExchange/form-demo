@@ -70,6 +70,13 @@ export default [
     description: ''
   },
   {
+    iconClassName: 'fa fa-header',
+    type: 'basic',
+    name: 'PageHeader',
+    component: 'PageHeader',
+    description: ''
+  },
+  {
     iconClassName: 'fa fa-font',
     type: 'forms',
     name: 'CheckboxField',
@@ -102,6 +109,13 @@ export default [
     type: 'forms',
     name: 'SubmitField',
     component: 'SubmitField',
+    description: ''
+  },
+  {
+    iconClassName: 'fa fa-font',
+    type: 'forms',
+    name: 'RegularToolBarField',
+    component: 'RegularToolBarField',
     description: ''
   },
   {

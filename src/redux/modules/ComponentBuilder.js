@@ -10,17 +10,21 @@ let count = 0;
 const initialState = {
   sandboxValue: {
     componentId: 'root',
-    component: 'div',
+    component: 'Form',
+    className: 'form-horizontal',
+    style: {
+      minHeight: 100
+    },
     children: [
       {
-        componentId: '456',
-        component: 'MyButton',
+        componentId: 'exampleA',
+        component: 'Button',
         bsStyle: 'primary',
         children: 'OK'
       },
       {
-        componentId: '789',
-        component: 'MyButton',
+        componentId: 'exampleB',
+        component: 'Button',
         bsStyle: 'danger',
         children: 'Cancel'
       },
@@ -152,11 +156,6 @@ export function deleteComponent(componentId) {
 }
 
 export function moveComponent(dragComponent, dropComponentId, isNew) {
-  console.log('moveComponent');
-  console.log('dragComponent');
-  console.log(dragComponent);
-  console.log('dropComponentId');
-  console.log(dropComponentId);
   return {
     type: MOVE_COMPONENT,
     dragComponent,

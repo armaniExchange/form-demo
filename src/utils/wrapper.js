@@ -62,7 +62,8 @@ export default function connectToWrap() {
         moveComponent: PropTypes.func
       }
 
-      deleteComponent() {
+      deleteComponent(event) {
+        event.stopPropagation();
         this.props.deleteComponent(this.props.componentId);
       }
 
@@ -97,7 +98,7 @@ export default function connectToWrap() {
         const ComponentId = 'componentId: ' + componentId;
         const isActive = componentId === editingComponentId;
         return connectDropTarget(connectDragSource(
-          <div className={ styles[isActive ? 'wrapperp-active' : 'wrapperp-normal']}>
+          <div onClick={::this.editProperties} className={ styles[isActive ? 'wrapperp-active' : 'wrapperp-normal']}>
             <span>{ ComponentId }</span>
             <i className="fa fa-cog {styles.edit}" onClick={::this.editProperties}/>
             <i className="fa fa-trash text-alert {styles.delete}" onClick={::this.deleteComponent}/>

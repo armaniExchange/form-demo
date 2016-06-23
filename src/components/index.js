@@ -31,6 +31,11 @@ export FormControl from './FormComponents/FormControl';
 export Input from './FormComponents/Input';
 export Label from './FormComponents/Label';
 export Radio from './FormComponents/Radio';
+
+export InputField from './FormFields/InputField';
+export RadioField from './FormFields/RadioField';
+
+export CheckboxField from './FormFields/CheckboxField';
 // export Button from 'react-bootstrap/lib/Button';
 // export ButtonInput from 'react-bootstrap/lib/';
 // export Dropdown from 'react-bootstrap/lib/';

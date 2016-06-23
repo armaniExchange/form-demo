@@ -64,9 +64,9 @@ export default class ComponentBuilderProperties extends Component {
   }
 
   renderInput(propTypeName, propType, value) {
-    if (propType === PropTypes.bool) {
+    if (propType === PropTypes.bool || propType === PropTypes.bool.isRequired) {
       return <Checkbox defaultChecked={value} onChange={this.onCheckBoxChange.bind(this, propTypeName)}/>;
-    } else if (propType === PropTypes.number) {
+    } else if (propType === PropTypes.number || propType === PropTypes.number.isRequired) {
       return <FormControl type="number" value={value} onChange={this.onInputChange.bind(this, propTypeName)}/>;
     }
     return <FormControl type="text" value={value} onChange={this.onInputChange.bind(this, propTypeName)}/>;

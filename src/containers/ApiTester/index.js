@@ -29,16 +29,6 @@ export default class ApiTester extends Component {
     submitting: PropTypes.bool.isRequired
   }
 
-  handleInitialize = () => {
-    // this.props.initialize('auth', {
-    //   name: 'Little Bobby Tables',
-    //   email: 'bobby@gmail.com',
-    //   occupation: 'Redux Wizard',
-    //   currentlyEmployed: true,
-    //   sex: 'male'
-    // });
-  }
-
   render() {
     const {
       fields: {path, body, method},
@@ -61,12 +51,11 @@ export default class ApiTester extends Component {
                   <ControlLabel>Path</ControlLabel>
                   <FormControl
                     type="text"
-                    placeholder="//axapi/v3/slb/virtual_server/"
+                    placeholder="/axapi/v3/slb/virtual_server/"
                     {...path}
                   />
                   <FormControl.Feedback />
                 </FormGroup>
-
                 <FormGroup>
                   <ControlLabel>Method</ControlLabel>
                   <FormControl componentClass="select" {...method} placeholder="select">

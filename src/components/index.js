@@ -41,3 +41,5 @@ export SubmitField from './FormFields/SubmitField';
 
 /* Layout Components */
 export RightSideHelper from './Layouts/RightSideHelper';
+
+export DropdownTable from './ComponentTable/DropdownTable';

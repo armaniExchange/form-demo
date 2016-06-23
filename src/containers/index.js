@@ -8,5 +8,6 @@ export LoginSuccess from './LoginSuccess/LoginSuccess';
 export Survey from './Survey/Survey';
 export NotFound from './NotFound/NotFound';
 export EditVirtualServer from './VirtualServer/Edit';
+export TableVirtualServer from './VirtualServer/Table';
 export ApiTester from './ApiTester/index';
 export ComponentBuilder from './ComponentBuilder/Edit';

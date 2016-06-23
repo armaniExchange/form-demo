@@ -12,6 +12,7 @@ import {
     Survey,
     NotFound,
     EditVirtualServer,
+    TableVirtualServer,
     ApiTester,
     ComponentBuilder
   } from 'containers';
@@ -53,6 +54,12 @@ export default (store) => {
       <Route path="login" component={Login}/>
       <Route path="survey" component={Survey}/>
       <Route path="widgets" component={Widgets}/>
+
+
+      { /* William Routes */ }
+      <Route path="SLB" component={TableVirtualServer} breadcrumb="Virtual Servers">
+        <Route path="Virtual_Servers" component={TableVirtualServer} breadcrumb="Virtual Servers"/>
+      </Route>
 
       { /* ZLI Routes */ }
       <Route path="slb" component={EditVirtualServer} breadcrumb="Virtual Server">

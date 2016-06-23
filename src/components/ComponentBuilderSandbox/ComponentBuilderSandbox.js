@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
-import Button from 'react-bootstrap/lib/Button';
 import { DropTarget } from 'react-dnd';
 import {connect} from 'react-redux';
 
@@ -30,23 +29,28 @@ export default class ComponentBuilderSandbox extends Component {
     connectDropTarget: PropTypes.func,
     value: PropTypes.object,
     addComponent: PropTypes.func,
-    editingComponentId: PropTypes.string
+    editingComponentId: PropTypes.string,
+    enablePreview: PropTypes.bool
   }
+
+  defaultProps = {
+    enablePreview: false
+  }
+
   render() {
     const {
       connectDropTarget,
       editingComponentId,
+      enablePreview,
       value
     } = this.props;
+    const enableWrap = !enablePreview;
 
     return connectDropTarget(
       <div>
         <Panel header={<span><i className="fa fa-pencil-square-o" ariaHidden="true" />&nbsp;Panel</span>}>
-          {jsonToReactComponent(value, { editingComponentId })}
+          {jsonToReactComponent(value, enableWrap, { editingComponentId })}
         </Panel>
-        <Button bsStyle="primary" onClick={(event)=>event.preventDefault()}>
-          Preview
-        </Button>
       </div>
     );
   }

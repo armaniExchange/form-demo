@@ -2,9 +2,7 @@ import _ from 'lodash';
 import React, {Component, PropTypes} from 'react';
 import {Button} from 'react-bootstrap';
 import {change, changeWithKey} from 'redux-form';
-import connectToWrap from './Wrap';
 
-@connectToWrap()
 class ResourceNode extends Component {
 
   static propTypes = {

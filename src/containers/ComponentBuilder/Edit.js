@@ -4,11 +4,16 @@ import {DragDropContext as dragDropContext} from 'react-dnd';
 import {connect} from 'react-redux';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
+import Button from 'react-bootstrap/lib/Button';
+import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
+
+import { RightSideHelper } from '../../components';
 
 import {
   ComponentBuilderSidebar,
   ComponentBuilderSandbox,
-  ComponentBuilderProperties
+  ComponentBuilderProperties,
+  ComponentBuilderExportModal
 } from 'components';
 
 @dragDropContext(HTML5Backend)
@@ -26,6 +31,25 @@ export default class ComponentBuilder extends Component {
     routes: PropTypes.array
   }
 
+  state = {
+    showPropertiesModal: false,
+    enablePreview: false
+  }
+
+  closePropertiesModal() {
+    this.setState({showPropertiesModal: false});
+  }
+
+  openPropertiesModal(event) {
+    event.preventDefault();
+    this.setState({showPropertiesModal: true});
+  }
+
+  switchPreview(event) {
+    event.preventDefault();
+    this.setState({enablePreview: !this.state.enablePreview});
+  }
+
   render() {
     const {
       sandboxValue,
@@ -34,35 +58,52 @@ export default class ComponentBuilder extends Component {
       editingComponentProps,
       editingComponentPropTypes
     } = this.props;
+    const {
+      enablePreview
+    } = this.state;
+
     return (
       <div className="container-fluid">
         <Row>
           <Col xs={4}>
             <ComponentBuilderSidebar />
           </Col>
-          <Col xs={isEditingProps ? 5 : 8}>
+          <Col xs={8}>
             <ComponentBuilderSandbox
               editingComponentId={editingComponentId}
+              enablePreview={enablePreview}
+              active={enablePreview}
               value={sandboxValue}
             />
-            <textarea
-              readOnly
-              style={{width: '100%', height: 'auto', minHeight: 300}}
-              value={JSON.stringify(sandboxValue, '\n', '  ')}
-            />
+            <ButtonToolbar>
+              <Button bsStyle="info" onClick={::this.switchPreview}>
+                { enablePreview ? (
+                  <span><i className="fa fa-pencil"/>&nbsp;Edit</span>
+                  ) : (
+                  <span><i className="fa fa-eye"/>&nbsp;Preview</span>
+                  )
+                }
+              </Button>
+              <Button bsStyle="success" onClick={::this.openPropertiesModal}>
+                Export
+              </Button>
+            </ButtonToolbar>
           </Col>
-          {
-            isEditingProps && (
-              <Col xs={3}>
-                <ComponentBuilderProperties
-                  editingComponentId={editingComponentId}
-                  componentProps={editingComponentProps}
-                  componentPropTypes={editingComponentPropTypes}
-                />
-              </Col>
-            )
-          }
+          <RightSideHelper show={isEditingProps}>
+            <ComponentBuilderProperties
+              editingComponentId={editingComponentId}
+              componentProps={editingComponentProps}
+              componentPropTypes={editingComponentPropTypes}
+            />
+          </RightSideHelper>
         </Row>
+        <ComponentBuilderExportModal
+          show={this.state.showPropertiesModal}
+          onHide={::this.closePropertiesModal}
+          container={this}
+          aria-labelledby="contained-modal-title"
+          sandboxValue={sandboxValue}
+        />
       </div>
     );
   }

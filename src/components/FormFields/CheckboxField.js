@@ -1,6 +1,4 @@
-
 import React, { Component, PropTypes } from 'react';
-import connectToWrap from '../../utils/wrapper';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import Col from 'react-bootstrap/lib/Col';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
@@ -8,7 +6,6 @@ import Checkbox from 'react-bootstrap/lib/Checkbox';
 
 import './default.css';
 
-@connectToWrap()
 class CheckboxField extends Component {
 
   static propTypes = {

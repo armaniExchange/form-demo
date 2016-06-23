@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import React, {Component, PropTypes} from 'react';
-import connectToWrap from './Wrap';
 import {FormControl} from 'react-bootstrap';
 
-@connectToWrap()
 class TextareaType extends Component {
 
   static propTypes = {

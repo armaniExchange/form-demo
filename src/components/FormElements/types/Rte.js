@@ -1,10 +1,8 @@
 import _ from 'lodash';
 import React, {Component, PropTypes} from 'react';
 import {change, changeWithKey} from 'redux-form';
-import connectToWrap from './Wrap';
 import TinyMCE from 'react-tinymce';
 
-@connectToWrap()
 class RteType extends Component {
 
   static propTypes = {

@@ -1,11 +1,9 @@
 import _ from 'lodash';
 import React, {Component, PropTypes} from 'react';
-import connectToWrap from './Wrap';
 import DateTimeField from 'react-bootstrap-datetimepicker';
 import {FormControl} from 'react-bootstrap';
 import moment from 'moment';
 
-@connectToWrap()
 class DateTimeType extends Component {
 
   static propTypes = {

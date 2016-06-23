@@ -25,6 +25,9 @@ const componentSource = {
 };
 const componentTarget = {
   drop(props, monitor, /* component */) {
+    if (monitor.didDrop()) {
+      return;
+    }
     const item = monitor.getItem();
     props.moveComponent(Object.assign({}, item, { _isNew: false }), props.componentId, item._isNew);
   }

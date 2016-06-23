@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import React, {Component, PropTypes} from 'react';
-import connectToWrap from './Wrap';
 import {Alert, Col, FormControl, Radio, Row} from 'react-bootstrap';
 
-@connectToWrap()
 class RadioType extends Component {
 
   static propTypes = {

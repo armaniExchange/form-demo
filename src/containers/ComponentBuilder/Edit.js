@@ -30,16 +30,22 @@ export default class ComponentBuilder extends Component {
   }
 
   state = {
-    show: false
+    showPropertiesModal: false,
+    enablePreview: false
   }
 
-  close() {
-    this.setState({show: false});
+  closePropertiesModal() {
+    this.setState({showPropertiesModal: false});
   }
 
-  open(event) {
+  openPropertiesModal(event) {
     event.preventDefault();
-    this.setState({show: true});
+    this.setState({showPropertiesModal: true});
+  }
+
+  switchPreview(event) {
+    event.preventDefault();
+    this.setState({enablePreview: !this.state.enablePreview});
   }
 
   render() {
@@ -50,6 +56,10 @@ export default class ComponentBuilder extends Component {
       editingComponentProps,
       editingComponentPropTypes
     } = this.props;
+    const {
+      enablePreview
+    } = this.state;
+
     return (
       <div className="container-fluid">
         <Row>
@@ -59,13 +69,20 @@ export default class ComponentBuilder extends Component {
           <Col xs={isEditingProps ? 5 : 8}>
             <ComponentBuilderSandbox
               editingComponentId={editingComponentId}
+              enablePreview={enablePreview}
+              active={enablePreview}
               value={sandboxValue}
             />
             <ButtonToolbar>
-              <Button bsStyle="primary" onClick={(event)=>event.preventDefault()}>
-                Preview
+              <Button bsStyle="info" onClick={::this.switchPreview}>
+                { enablePreview ? (
+                  <span><i className="fa fa-pencil"/>&nbsp;Edit</span>
+                  ) : (
+                  <span><i className="fa fa-eye"/>&nbsp;Preview</span>
+                  )
+                }
               </Button>
-              <Button bsStyle="success" onClick={::this.open}>
+              <Button bsStyle="success" onClick={::this.openPropertiesModal}>
                 Export
               </Button>
             </ButtonToolbar>
@@ -83,8 +100,8 @@ export default class ComponentBuilder extends Component {
           }
         </Row>
         <ComponentBuilderExportModal
-          show={this.state.show}
-          onHide={::this.close}
+          show={this.state.showPropertiesModal}
+          onHide={::this.closePropertiesModal}
           container={this}
           aria-labelledby="contained-modal-title"
           sandboxValue={sandboxValue}

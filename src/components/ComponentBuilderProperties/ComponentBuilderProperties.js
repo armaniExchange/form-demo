@@ -1,12 +1,13 @@
 import React, {Component, PropTypes} from 'react';
+import _ from 'lodash';
 import {connect} from 'react-redux';
 import Col from 'react-bootstrap/lib/Col';
 import Panel from 'react-bootstrap/lib/Panel';
 import Form from 'react-bootstrap/lib/Form';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
-import Button from 'react-bootstrap/lib/Button';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
+
 import {
   updateComponent,
   stopEditingComponent
@@ -35,21 +36,22 @@ export default class ComponentBuilderProperties extends Component {
     }
   }
 
-  onUpdateComponentClick(event) {
-    event.preventDefault();
+  onUpdateComponentClick = _.debounce(() =>{
     this.props.updateComponent(this.props.componentProps.componentId, this.state);
-  }
+  }, 100)
 
   onInputChange(propTypeName, event) {
     this.setState({
       [propTypeName]: event.target.value
     });
+    this.onUpdateComponentClick();
   }
 
   onCheckBoxChange(propTypeName, event) {
     this.setState({
       [propTypeName]: event.target.checked
     });
+    this.onUpdateComponentClick();
   }
 
   onDismissComponentBuilderPrperties() {
@@ -117,14 +119,6 @@ export default class ComponentBuilderProperties extends Component {
               );
             })
           }
-
-          <FormGroup>
-            <Col smOffset={2} sm={10}>
-              <Button type="submit" bsStyle="success" onClick={::this.onUpdateComponentClick}>
-                OK
-              </Button>
-            </Col>
-          </FormGroup>
         </Form>
       </Panel>
     );

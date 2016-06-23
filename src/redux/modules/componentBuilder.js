@@ -152,7 +152,6 @@ export function deleteComponent(componentId) {
 }
 
 export function moveComponent(dragComponent, dropComponentId, isNew) {
-  console.log(`moveComponent ${JSON.stringify(dragComponent)} ${dropComponentId}`);
   return {
     type: MOVE_COMPONENT,
     dragComponent,

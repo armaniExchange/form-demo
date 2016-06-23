@@ -77,20 +77,17 @@ export default class App extends Component {
   };
 
   renderPath = (routes = []) => {
-    const paths = [];
-
-    routes.forEach((route) => {
-      if (route.path !== '/') {
-        paths.push( (<li>{route.path}</li>));
-      }
-    });
-
     return (
       <ol className="breadcrumb">
-          <li>
-              <a href="#">Home</a>
-          </li>
-          {paths}
+        <li>
+          <a href="#">Home</a>
+        </li>
+        {
+          routes.filter(route => route.path !== '/' )
+          .map((route, index)=> (
+            <li key={index}>{route.path}</li>
+          ))
+        }
       </ol>
     );
   };

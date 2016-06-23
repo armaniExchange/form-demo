@@ -4,11 +4,14 @@ import {DragDropContext as dragDropContext} from 'react-dnd';
 import {connect} from 'react-redux';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
+import Button from 'react-bootstrap/lib/Button';
+import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 
 import {
   ComponentBuilderSidebar,
   ComponentBuilderSandbox,
-  ComponentBuilderProperties
+  ComponentBuilderProperties,
+  ComponentBuilderExportModal
 } from 'components';
 
 @dragDropContext(HTML5Backend)
@@ -24,6 +27,19 @@ export default class ComponentBuilder extends Component {
     isEditingProps: PropTypes.bool,
     editingComponentId: PropTypes.string,
     routes: PropTypes.array
+  }
+
+  state = {
+    show: false
+  }
+
+  close() {
+    this.setState({show: false});
+  }
+
+  open(event) {
+    event.preventDefault();
+    this.setState({show: true});
   }
 
   render() {
@@ -45,11 +61,14 @@ export default class ComponentBuilder extends Component {
               editingComponentId={editingComponentId}
               value={sandboxValue}
             />
-            <textarea
-              readOnly
-              style={{width: '100%', height: 'auto', minHeight: 300}}
-              value={JSON.stringify(sandboxValue, '\n', '  ')}
-            />
+            <ButtonToolbar>
+              <Button bsStyle="primary" onClick={(event)=>event.preventDefault()}>
+                Preview
+              </Button>
+              <Button bsStyle="success" onClick={::this.open}>
+                Export
+              </Button>
+            </ButtonToolbar>
           </Col>
           {
             isEditingProps && (
@@ -63,6 +82,13 @@ export default class ComponentBuilder extends Component {
             )
           }
         </Row>
+        <ComponentBuilderExportModal
+          show={this.state.show}
+          onHide={::this.close}
+          container={this}
+          aria-labelledby="contained-modal-title"
+          sandboxValue={sandboxValue}
+        />
       </div>
     );
   }

@@ -4,21 +4,22 @@ import connectToWrap from '../../utils/wrapper';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import Col from 'react-bootstrap/lib/Col';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import Radio from 'react-bootstrap/lib/Radio';
+import FormControl from 'react-bootstrap/lib/FormControl';
 
 import './default.css';
 
 @connectToWrap()
-class RadioField extends Component {
+class InputField extends Component {
 
   static propTypes = {
     required: PropTypes.bool.isRequired,
     label: PropTypes.string.isRequired,
-    options: PropTypes.array.isRequired
+    type: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
   };
 
   render() {
-    const { required, label, options } = this.props;
+    const { required, label, type, name } = this.props;
     const className = required ? 'required' : '';
     return (
       <FormGroup>
@@ -28,21 +29,19 @@ class RadioField extends Component {
           </ControlLabel>
         </Col>
         <Col sm={8}>
-          {options.map((option, index) => {
-            return (<Col sm={3} key={ index }><Radio name="test">{ option }</Radio></Col>);
-          })}
+          <FormControl type={ type } name={ name } />
         </Col>
       </FormGroup>
     );
   }
 }
 
-RadioField.getComponentDefaultProps = () => {
+InputField.getComponentDefaultProps = () => {
   return {
     required: false,
     label: 'Default Label',
-    options: ['message1', 'message2', 'message3']
+    type: 'text'
   };
 };
 
-export default RadioField;
+export default InputField;

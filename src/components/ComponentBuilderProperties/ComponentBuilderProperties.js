@@ -1,3 +1,6 @@
+
+import 'react-select/dist/react-select.css';
+
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Col from 'react-bootstrap/lib/Col';
@@ -7,6 +10,10 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import Button from 'react-bootstrap/lib/Button';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
+import Select from 'react-select';
+
+import MultiOptionsEdit from './properties/MultiOptionsEdit';
+
 import {
   updateComponent,
   stopEditingComponent
@@ -52,6 +59,21 @@ export default class ComponentBuilderProperties extends Component {
     });
   }
 
+  onOptionsChange(propTypeName, options) {
+    const thisOptions = this.state[propTypeName];
+    thisOptions.length = 0;
+    Array.prototype.push.apply(thisOptions, options);
+    this.setState({
+      [propTypeName]: thisOptions
+    });
+  }
+
+  onSelectChange(propTypeName, value) {
+    this.setState({
+      [propTypeName]: value
+    });
+  }
+
   onDismissComponentBuilderPrperties() {
     this.props.stopEditingComponent();
   }
@@ -64,10 +86,46 @@ export default class ComponentBuilderProperties extends Component {
   }
 
   renderInput(propTypeName, propType, value) {
+
+    // Some special propTypeName
+
+    switch (propTypeName) {
+      case 'bsSize':
+        const bsSizeOptions = ['lg', 'large', 'sm', 'small', 'xs', 'xsmall'];
+        return (
+          <Select
+            value={ value }
+            options={ bsSizeOptions.map(option => {
+              return {label: option, value: option};
+            }) }
+            onChange={this.onSelectChange.bind(this, propTypeName)}
+          />
+        );
+      case 'bsStyle':
+        const bsStyleOptions = ['success', 'warning', 'danger', 'info', 'default', 'primary', 'link'];
+        return (
+          <Select
+            value={ value }
+            options={ bsStyleOptions.map(option => {
+              return {label: option, value: option};
+            }) }
+            onChange={this.onSelectChange.bind(this, propTypeName)}
+          />
+        );
+      default:
+        break;
+    }
+
+    // const _onOptionsChange = (options) => {
+    //   this.onOptionsChange(propTypeName, options);
+    // };
+
     if (propType === PropTypes.bool || propType === PropTypes.bool.isRequired) {
       return <Checkbox defaultChecked={value} onChange={this.onCheckBoxChange.bind(this, propTypeName)}/>;
     } else if (propType === PropTypes.number || propType === PropTypes.number.isRequired) {
       return <FormControl type="number" value={value} onChange={this.onInputChange.bind(this, propTypeName)}/>;
+    } else if (propType === PropTypes.array || propType === PropTypes.array.isRequired) {
+      return <MultiOptionsEdit options={value} onChange={this.onOptionsChange.bind(this, propTypeName)}/>;
     }
     return <FormControl type="text" value={value} onChange={this.onInputChange.bind(this, propTypeName)}/>;
   }
@@ -87,13 +145,13 @@ export default class ComponentBuilderProperties extends Component {
     );
 
     return (
-      <Panel header={PanelHeader}>
+      <Panel className="panel panel-success" header={PanelHeader}>
         <Form horizontal>
           <FormGroup>
-            <Col sm={6}>
+            <Col sm={4}>
               Text
             </Col>
-            <Col sm={6}>
+            <Col sm={8}>
               <FormControl
                 type="text"
                 disable={typeof this.state.children !== 'string'}
@@ -105,10 +163,10 @@ export default class ComponentBuilderProperties extends Component {
             Object.keys(componentPropTypes).map((propTypeName, index) => {
               return (
                 <FormGroup key={index}>
-                <Col sm={6}>
+                <Col sm={4}>
                   {propTypeName}
                 </Col>
-                <Col sm={6}>
+                <Col sm={8}>
                   {
                     this.renderInput(propTypeName, componentPropTypes[propTypeName], this.state[propTypeName])
                   }

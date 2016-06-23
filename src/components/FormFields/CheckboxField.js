@@ -29,7 +29,7 @@ class CheckboxField extends Component {
         </Col>
         <Col sm={8}>
           {options.map((option) => {
-            return (<Checkbox name="test">{ option }</Checkbox>);
+            return (<Col sm={3}><Checkbox name="test">{ option }</Checkbox></Col>);
           })}
         </Col>
       </FormGroup>

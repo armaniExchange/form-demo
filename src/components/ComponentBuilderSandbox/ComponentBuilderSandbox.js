@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import Panel from 'react-bootstrap/lib/Panel';
 import { DropTarget } from 'react-dnd';
 import {connect} from 'react-redux';
+import Panel from 'react-bootstrap/lib/Panel';
 
 import DndTypes from '../../constants/DndTypes';
 import jsonToReactComponent from '../../utils/jsonToReactComponent';

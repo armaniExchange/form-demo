@@ -1,9 +1,9 @@
 export default [
   {
-    iconClassName: 'fa fa-square-o',
+    iconClassName: 'fa fa-header',
     type: 'basic',
-    name: 'MyButton',
-    component: 'MyButton',
+    name: 'PageHeader',
+    component: 'PageHeader',
     description: ''
   },
   {
@@ -92,16 +92,23 @@ export default [
   },
   {
     iconClassName: 'fa fa-font',
+    type: 'forms',
+    name: 'RegularToolBarField',
+    component: 'RegularToolBarField',
+    description: ''
+  },
+  {
+    iconClassName: 'fa fa-font',
     type: 'tables',
-    name: 'MyButton',
-    component: 'MyButton',
+    name: 'Button',
+    component: 'Button',
     description: ''
   },
   {
     iconClassName: 'fa fa-font',
     type: 'charts',
-    name: 'MyButton',
-    component: 'MyButton',
+    name: 'Button',
+    component: 'Button',
     description: ''
   },
 ];

@@ -62,20 +62,21 @@ export default function connectToWrap() {
         moveComponent: PropTypes.func
       }
 
-      deleteComponent() {
+      deleteComponent(event) {
+        event.stopPropagation();
         this.props.deleteComponent(this.props.componentId);
       }
 
       editProperties() {
         this.props.startToEditComponent({
-          componentPropTypes: WrappedComponent.propTypes,
+          componentPropTypes: WrappedComponent.propTypes || {},
           componentProps: this.props
         });
       }
 
       renderTitle() {
         return (
-          <div >
+          <div>
             componentId: {this.props.componentId}
             <div className="pull-right">
               <i className="fa fa-cog" style={{cursor: 'pointer'}} onClick={::this.editProperties}/>
@@ -85,6 +86,7 @@ export default function connectToWrap() {
           </div>
         );
       }
+
       render() {
         const styles = require('./wrapper.scss');
         const {
@@ -97,7 +99,7 @@ export default function connectToWrap() {
         const ComponentId = 'componentId: ' + componentId;
         const isActive = componentId === editingComponentId;
         return connectDropTarget(connectDragSource(
-          <div className={ styles[isActive ? 'wrapperp-active' : 'wrapperp-normal']}>
+          <div className={ styles[isActive ? 'wrapperp-active' : 'wrapperp-normal']} onClick={::this.editProperties}>
             <span>{ ComponentId }</span>
             <i className="fa fa-cog {styles.edit}" onClick={::this.editProperties}/>
             <i className="fa fa-trash text-alert {styles.delete}" onClick={::this.deleteComponent}/>

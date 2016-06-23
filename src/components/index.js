@@ -19,8 +19,6 @@ export ComponentBuilderProperties from './ComponentBuilderProperties/ComponentBu
 export ComponentCandidate from './ComponentCandidate/ComponentCandidate';
 export ComponentBuilderExportModal from './ComponentBuilderExportModal/ComponentBuilderExportModal';
 
-export MyButton from './Button/Button';
-
 /* export from FromComponents, which for basic form components */
 export Button from './FormComponents/Button';
 export ButtonGroup from './FormComponents/ButtonGroup';
@@ -31,18 +29,17 @@ export FormControl from './FormComponents/FormControl';
 export Input from './FormComponents/Input';
 export Label from './FormComponents/Label';
 export Radio from './FormComponents/Radio';
+export PageHeader from './FormComponents/PageHeader';
+
+// export Button from 'react-bootstrap/lib/Button';
+// export ButtonInput from 'react-bootstrap/lib/ButtonInput';
+// export Dropdown from 'react-bootstrap/lib/Dropdown';
+// export DropdownButton from 'react-bootstrap/lib/DropdownButton';
+// export FormControl from 'react-bootstrap/lib/FormControl';
+// export Input from 'react-bootstrap/lib/Input';
+// export Label from 'react-bootstrap/lib/';
 
 export InputField from './FormFields/InputField';
 export RadioField from './FormFields/RadioField';
-
 export CheckboxField from './FormFields/CheckboxField';
-// export Button from 'react-bootstrap/lib/Button';
-// export ButtonInput from 'react-bootstrap/lib/';
-// export Dropdown from 'react-bootstrap/lib/';
-// export DropdownButton from 'react-bootstrap/lib/';
-// export FromGroup from 'react-bootstrap/lib/';
-// export FromControls from 'react-bootstrap/lib/';
-// export Input from 'react-bootstrap/lib/';
-// export InputBase from 'react-bootstrap/lib/';
-// export Label from 'react-bootstrap/lib/';
-// export ListGroup from 'react-bootstrap/lib/';
+export RegularToolBarField from './FormFields/RegularToolBarField';

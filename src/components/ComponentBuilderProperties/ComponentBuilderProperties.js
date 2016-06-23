@@ -60,18 +60,22 @@ export default class ComponentBuilderProperties extends Component {
   }
 
   onOptionsChange(propTypeName, options) {
+    /* To make sure this options array in state always point to the same array */
     const thisOptions = this.state[propTypeName];
     thisOptions.length = 0;
     Array.prototype.push.apply(thisOptions, options);
+
     this.setState({
       [propTypeName]: thisOptions
     });
+    this.onUpdateComponentClick();
   }
 
   onSelectChange(propTypeName, value) {
     this.setState({
       [propTypeName]: value
     });
+    this.onUpdateComponentClick();
   }
 
   onDismissComponentBuilderPrperties() {
@@ -115,10 +119,6 @@ export default class ComponentBuilderProperties extends Component {
       default:
         break;
     }
-
-    // const _onOptionsChange = (options) => {
-    //   this.onOptionsChange(propTypeName, options);
-    // };
 
     if (propType === PropTypes.bool || propType === PropTypes.bool.isRequired) {
       return <Checkbox defaultChecked={value} onChange={this.onCheckBoxChange.bind(this, propTypeName)}/>;

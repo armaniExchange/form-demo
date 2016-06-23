@@ -72,6 +72,13 @@ export default [
   {
     iconClassName: 'fa fa-font',
     type: 'forms',
+    name: 'CheckboxField',
+    component: 'CheckboxField',
+    description: ''
+  },
+  {
+    iconClassName: 'fa fa-font',
+    type: 'forms',
     name: 'InputField',
     component: 'InputField',
     description: ''
@@ -86,8 +93,15 @@ export default [
   {
     iconClassName: 'fa fa-font',
     type: 'forms',
-    name: 'CheckboxField',
-    component: 'CheckboxField',
+    name: 'SelectField',
+    component: 'SelectField',
+    description: ''
+  },
+  {
+    iconClassName: 'fa fa-font',
+    type: 'forms',
+    name: 'SubmitField',
+    component: 'SubmitField',
     description: ''
   },
   {

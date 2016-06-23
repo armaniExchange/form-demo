@@ -1,25 +1,31 @@
 
+import 'react-select/dist/react-select.css';
+
 import React, { Component, PropTypes } from 'react';
-import connectToWrap from '../../utils/wrapper';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import Col from 'react-bootstrap/lib/Col';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
+
+import Select from 'react-select';
 
 import './default.css';
 
-@connectToWrap()
-class InputField extends Component {
+class SelectField extends Component {
 
   static propTypes = {
     required: PropTypes.bool.isRequired,
     label: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
+    multi: PropTypes.bool,
+    value: PropTypes.string.isRequired,
+    options: PropTypes.array.isRequired
   };
 
+  onSelectChange(value) {
+    console.log(value);
+  }
+
   render() {
-    const { required, label, type, name } = this.props;
+    const { required, label, options, value, multi } = this.props;
     const className = required ? 'required' : '';
     return (
       <FormGroup>
@@ -29,19 +35,27 @@ class InputField extends Component {
           </ControlLabel>
         </Col>
         <Col sm={8}>
-          <FormControl type={ type } name={ name } />
+          <Select
+            multi={ multi }
+            value={ value }
+            options={ options.map(option => {
+              return {label: option, value: option};
+            }) }
+            onChange={this.onSelectChange} />
         </Col>
       </FormGroup>
     );
   }
 }
 
-InputField.getComponentDefaultProps = () => {
+SelectField.getComponentDefaultProps = () => {
   return {
     required: false,
     label: 'Default Label',
-    type: 'text'
+    value: '',
+    multi: false,
+    options: ['message1', 'message2', 'message3']
   };
 };
 
-export default InputField;
+export default SelectField;

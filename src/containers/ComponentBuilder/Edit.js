@@ -6,19 +6,23 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
-
-import { RightSideHelper } from 'components';
-
 import {
   ComponentBuilderSidebar,
   ComponentBuilderSandbox,
   ComponentBuilderProperties,
-  ComponentBuilderExportModal
+  ComponentBuilderExportModal,
+  RightSideHelper
 } from 'components';
+
+import {
+  stopEditingComponent
+} from '../../redux/modules/componentBuilder';
 
 @dragDropContext(HTML5Backend)
 @connect(
-  state => ({...state.componentBuilder})
+  state => ({...state.componentBuilder}), {
+    stopEditingComponent
+  }
 )
 export default class ComponentBuilder extends Component {
 
@@ -28,12 +32,19 @@ export default class ComponentBuilder extends Component {
     editingComponentPropTypes: PropTypes.object,
     isEditingProps: PropTypes.bool,
     editingComponentId: PropTypes.string,
+    stopEditingComponent: PropTypes.func,
     routes: PropTypes.array
   }
 
   state = {
     showPropertiesModal: false,
     enablePreview: false
+  }
+
+  onKeyUp(event) {
+    if (event.keyCode === 13 || event.keyCode === 27) {
+      this.props.stopEditingComponent();
+    }
   }
 
   closePropertiesModal() {
@@ -63,7 +74,7 @@ export default class ComponentBuilder extends Component {
     } = this.state;
 
     return (
-      <div className="container-fluid">
+      <div className="container-fluid" onKeyUp={::this.onKeyUp}>
         <Row>
           <Col xs={4}>
             <ComponentBuilderSidebar />

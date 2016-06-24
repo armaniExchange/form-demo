@@ -11,6 +11,7 @@ class RegularToolBarField extends Component {
     secondaryBsStyle: PropTypes.string,
     primaryText: PropTypes.string,
     secondaryText: PropTypes.string,
+    pullRight: PropTypes.bool
   };
 
   // defaultProps = {
@@ -26,9 +27,10 @@ class RegularToolBarField extends Component {
       secondaryBsStyle,
       primaryText,
       secondaryText,
+      pullRight
     } = this.props;
     return (
-      <ButtonToolbar>
+      <ButtonToolbar className={ pullRight ? 'pull-right' : ''}>
         <Button bsStyle={primaryBsStyle}>
           {primaryText}
         </Button>
@@ -46,6 +48,7 @@ RegularToolBarField.getComponentDefaultProps = () => {
     secondaryBsStyle: 'danger',
     primaryText: 'OK',
     secondaryText: 'Cancel',
+    pullRight: true
   };
 };
 

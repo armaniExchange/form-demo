@@ -162,7 +162,7 @@ export default class ComponentBuilderProperties extends Component {
             <Col sm={8}>
               <FormControl
                 type="text"
-                disabled={typeof this.state.children !== 'string'}
+                disabled={typeof this.state.children === 'object'}
                 value={this.state.children}
                 onChange={this.onInputChange.bind(this, 'children')}/>
             </Col>

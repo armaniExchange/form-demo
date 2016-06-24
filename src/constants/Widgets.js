@@ -1,9 +1,33 @@
 export default [
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-wpforms',
     type: 'basic',
     name: 'Panel',
     component: 'Panel',
+    description: '',
+    isContainer: true
+  },
+  {
+    iconClassName: 'fa fa-square-o',
+    type: 'basic',
+    name: 'Col',
+    component: 'Col',
+    description: '',
+    isContainer: true
+  },
+  {
+    iconClassName: 'fa fa-square-o',
+    type: 'basic',
+    name: 'Row',
+    component: 'Row',
+    description: '',
+    isContainer: true
+  },
+  {
+    iconClassName: 'fa fa-square-o',
+    type: 'basic',
+    name: 'ButtonToolbar',
+    component: 'ButtonToolbar',
     description: '',
     isContainer: true
   },
@@ -78,49 +102,49 @@ export default [
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-check-square-o',
     type: 'forms',
     name: 'CheckboxField',
     component: 'CheckboxField',
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-underline',
     type: 'forms',
     name: 'InputField',
     component: 'InputField',
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-dot-circle-o',
     type: 'forms',
     name: 'RadioField',
     component: 'RadioField',
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-caret-square-o-down',
     type: 'forms',
     name: 'SelectField',
     component: 'SelectField',
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-square-o',
     type: 'forms',
     name: 'SubmitField',
     component: 'SubmitField',
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-square-o',
     type: 'forms',
     name: 'RegularToolBarField',
     component: 'RegularToolBarField',
     description: ''
   },
   {
-    iconClassName: 'fa fa-font',
+    iconClassName: 'fa fa-square-o',
     type: 'tables',
     name: 'Button',
     component: 'Button',

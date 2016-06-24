@@ -39,8 +39,6 @@
   }
 
   &:hover {
-    border: 1px dashed #888;
-
     i {
       opacity: 1;
     }
@@ -54,9 +52,15 @@
 .wrapperp-normal {
   @include wrapperp;
   border: 1px dashed #ddd;
+  &:hover {
+    border: 1px dashed #888;
+  }
 }
 
 .wrapperp-active {
   @include wrapperp;
   border: 1px solid darkblue;
+  &:hover {
+    border: 1px solid darkblue;
+  }
 }

@@ -17,7 +17,6 @@ const componentSource = {
   isDragging(props, monitor) {
     return monitor.getItem().id === props.id;
   },
-
   beginDrag(props/* , monitor, component */) {
     const item = props;
     return item;
@@ -29,7 +28,7 @@ const componentTarget = {
       return;
     }
     const item = monitor.getItem();
-    props.moveComponent(Object.assign({}, item, { _isNew: false }), props.componentId, item._isNew);
+    props.moveComponent(Object.assign({}, item, { _isNew: false }), props.componentId, item._isNew, props._isContainer);
   }
 };
 
@@ -67,7 +66,8 @@ export default function connectToWrap() {
         this.props.deleteComponent(this.props.componentId);
       }
 
-      editProperties() {
+      editProperties(event) {
+        event.stopPropagation();
         this.props.startToEditComponent({
           componentPropTypes: WrappedComponent.propTypes,
           componentProps: this.props

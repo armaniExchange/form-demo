@@ -15,7 +15,8 @@ const componentSource = {
     const componentModule = allComponents[props.component];
     const item = Object.assign({
       component: props.component,
-      _isNew: true
+      _isNew: true,
+      _isContainer: props.isContainer
     }, componentModule.getComponentDefaultProps ? {...componentModule.getComponentDefaultProps()} : {});
     return item;
   }
@@ -31,7 +32,8 @@ class ComponentCandidate extends Component {
     connectDragSource: PropTypes.func,
     iconClassName: PropTypes.string,
     name: PropTypes.string,
-    component: PropTypes.string
+    component: PropTypes.string,
+    isContainer: PropTypes.bool
   }
 
   render() {

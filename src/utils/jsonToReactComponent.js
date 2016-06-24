@@ -25,7 +25,7 @@ const toComponent = (obj, enableWrap, props = {}) => {
     reactComponent = wrappedComponents[component];
   }
   const childrenComponent = !children || typeof children === 'string' ? obj : (children || []).map(item => toComponent(item, enableWrap, props));
-  return React.createElement.apply(this, [reactComponent, Object.assign({}, props, obj), ...childrenComponent]);
+  return React.createElement.apply(this, [reactComponent, Object.assign({}, obj, props), ...childrenComponent]);
 };
 
 export default toComponent;

@@ -19,8 +19,6 @@ export ComponentBuilderProperties from './ComponentBuilderProperties/ComponentBu
 export ComponentCandidate from './ComponentCandidate/ComponentCandidate';
 export ComponentBuilderExportModal from './ComponentBuilderExportModal/ComponentBuilderExportModal';
 
-export MyButton from './Button/Button';
-
 /* export from FromComponents, which for basic form components */
 export Button from './FormComponents/Button';
 export ButtonGroup from './FormComponents/ButtonGroup';
@@ -41,7 +39,11 @@ export SelectField from './FormFields/SelectField';
 export SubmitField from './FormFields/SubmitField';
 export RegularToolBarField from './FormFields/RegularToolBarField';
 
+/* Container */
+export Panel from 'react-bootstrap/lib/Panel';
+
 /* Layout Components */
 export RightSideHelper from './Layouts/RightSideHelper';
 
 export DropdownTable from './ComponentTable/DropdownTable';
+

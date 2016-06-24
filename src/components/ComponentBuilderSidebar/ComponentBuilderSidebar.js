@@ -49,6 +49,7 @@ export default class ComponentBuilderSidebar extends Component {
                                 name={item.name}
                                 component={item.component}
                                 iconClassName={item.iconClassName}
+                                isContainer={item.isContainer === true}
                               />
                             );
                           })

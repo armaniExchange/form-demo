@@ -1,11 +1,11 @@
+import shortid from 'shortid';
+
 const ADD_COMPONENT = 'componentBuilder/ADD_COMPONENT';
 const DELETE_COMPONENT = 'componentBuilder/DELETE_COMPONENT';
 const UPDATE_COMPONENT = 'componentBuilder/UPDATE_COMPONENT';
 const MOVE_COMPONENT = 'componentBuilder/MOVE_COMPONENT';
 const START_TO_EDIT_COMPONENT = 'componentBuilder/START_TO_EDIT_COMPONENT';
 const STOP_EDITING_COMPONENT = 'componentBuilder/STOP_EDITING_COMPONENT';
-
-let count = 0;
 
 const initialState = {
   sandboxValue: {
@@ -56,28 +56,34 @@ function _updateComponent(schema, componentId, component) {
         if ( item.componentId === componentId) {
           Object.assign(item, component);
         }
-        return _updateComponent(item, componentId);
+        return _updateComponent(item, componentId, component);
       })
   };
 }
 
-function _moveComponent(schema, dragComponent, dropComponentId, isNew) {
-  if (isNew) {
-    dragComponent.componentId = (count++).toString();
+function _moveComponent(schema, dragComponent, dropComponentId, isNew, asChild = false) {
+  if (isNew && !dragComponent.componentId) {
+    dragComponent.componentId = shortid.generate();
   }
-  return {
-    ...schema,
-    children: !schema.children || typeof schema.children === 'string' ? schema.children :
-      schema.children.filter(item => item.componentId !== dragComponent.componentId)
-      .map(item => {
-        return _deleteComponent(item, dragComponent, dropComponentId);
-      })
-      .reduce((prev, current) => {
-        if (current.componentId === dropComponentId) {
+  const modifiedChildren = !schema.children || typeof schema.children === 'string' ? schema.children :
+    schema.children.filter(item => item.componentId !== dragComponent.componentId)
+    .map(item => _moveComponent(item, dragComponent, dropComponentId, isNew, asChild))
+    .reduce((prev, current) => {
+      if (current.componentId === dropComponentId) {
+        if (asChild) {
+          current.children = current.children || [];
+          current.children = [...current.children, dragComponent];
+        } else {
           return [...prev, dragComponent, current];
         }
-        return [...prev, current];
-      }, [])
+      } else if (current.componentId === dragComponent.id) {
+        return prev;
+      }
+      return [...prev, current];
+    }, []);
+  return {
+    ...schema,
+    children: modifiedChildren
   };
 }
 
@@ -88,7 +94,7 @@ export default function reducer(state = initialState, action = {}) {
         component,
       } = action;
       const newComponent = {
-        componentId: (count++).toString(),
+        componentId: shortid.generate(),
         ...component
       };
       return {
@@ -111,7 +117,7 @@ export default function reducer(state = initialState, action = {}) {
     case MOVE_COMPONENT:
       return {
         ...state,
-        sandboxValue: _moveComponent(state.sandboxValue, action.dragComponent, action.dropComponentId, action.isNew)
+        sandboxValue: _moveComponent(state.sandboxValue, action.dragComponent, action.dropComponentId, action.isNew, action.asChild)
       };
     case START_TO_EDIT_COMPONENT:
       return {
@@ -155,12 +161,13 @@ export function deleteComponent(componentId) {
   };
 }
 
-export function moveComponent(dragComponent, dropComponentId, isNew) {
+export function moveComponent(dragComponent, dropComponentId, isNew, asChild) {
   return {
     type: MOVE_COMPONENT,
     dragComponent,
     dropComponentId,
-    isNew
+    isNew,
+    asChild
   };
 }
 

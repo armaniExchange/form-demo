@@ -1,10 +1,11 @@
 export default [
   {
-    iconClassName: 'fa fa-square-o',
+    iconClassName: 'fa fa-font',
     type: 'basic',
-    name: 'MyButton',
-    component: 'MyButton',
-    description: ''
+    name: 'Panel',
+    component: 'Panel',
+    description: '',
+    isContainer: true
   },
   {
     iconClassName: 'fa fa-square-o',
@@ -121,15 +122,8 @@ export default [
   {
     iconClassName: 'fa fa-font',
     type: 'tables',
-    name: 'MyButton',
-    component: 'MyButton',
-    description: ''
-  },
-  {
-    iconClassName: 'fa fa-font',
-    type: 'charts',
-    name: 'MyButton',
-    component: 'MyButton',
+    name: 'Button',
+    component: 'Button',
     description: ''
   },
 ];

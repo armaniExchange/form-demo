@@ -132,7 +132,7 @@ export default class ComponentBuilderProperties extends Component {
 
   render() {
     const {
-      componentPropTypes
+      componentPropTypes = {}
     } = this.props;
     const PanelHeader = (
       <span>
@@ -149,12 +149,20 @@ export default class ComponentBuilderProperties extends Component {
         <Form horizontal>
           <FormGroup>
             <Col sm={4}>
+              Component
+            </Col>
+            <Col sm={8}>
+             { this.props.componentProps.component }
+            </Col>
+          </FormGroup>
+          <FormGroup>
+            <Col sm={4}>
               Text
             </Col>
             <Col sm={8}>
               <FormControl
                 type="text"
-                disable={typeof this.state.children !== 'string'}
+                disabled={typeof this.state.children !== 'string'}
                 value={this.state.children}
                 onChange={this.onInputChange.bind(this, 'children')}/>
             </Col>

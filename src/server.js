@@ -51,13 +51,13 @@ server.on('upgrade', (req, socket, head) => {
   proxy.ws(req, socket, head);
 });
 
-proxy.on('proxyReq', function(proxyReq, req, res, options) {
+proxy.on('proxyReq', (proxyReq) => {
   // proxyReq.setHeader('X-Special-Proxy-Header', 'foobar');
   // console.log(proxyReq);
+  // console.log('request axapi');
   proxyReq.setHeader('Content-type', 'application/json');
   proxyReq.setHeader('X-Forwarded-For', '172.17.65.32');
-})
-//headers = { 'Content-type' : 'application/json', 'Authorization' : 'A10 %s' % self.sessionid}
+});
 
 // added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
 proxy.on('error', (error, req, res) => {

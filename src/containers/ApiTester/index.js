@@ -1,24 +1,24 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
+// import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import {reduxForm} from 'redux-form';
 import {bindActionCreators} from 'redux';
 import * as apiTesterActions from 'redux/modules/apiTester';
-import { FormGroup, FormControl, ControlLabel, Button, Col, Row, Grid } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, Button, Col, Row, ButtonToolbar, ButtonGroup } from 'react-bootstrap';
 
-@connect(
-  (state) => ({response: state.data}),
+@reduxForm(
+  {
+    form: 'apiTester',
+    fields: ['path', 'body', 'method'],
+    initialValues: {
+      path: '/axapi/v3/auth',
+      method: 'POST',
+      body: JSON.stringify({credentials: {username: 'admin', password: 'a10'}}, '\n', '   ')
+    }
+  },
+  () => ({}),
   dispatch => bindActionCreators(apiTesterActions, dispatch)
 )
-@reduxForm({
-  form: 'apiTester',
-  fields: ['path', 'body', 'method'],
-  initialValues: {
-    path: '/axapi/v3/auth',
-    method: 'POST',
-    body: '{credentials: {username: "admin", password: "a10"}}'
-  }
-})
 export default class ApiTester extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
@@ -26,7 +26,8 @@ export default class ApiTester extends Component {
     response: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     resetForm: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired
+    submitting: PropTypes.bool.isRequired,
+    values: PropTypes.object.isRequired
   }
 
   render() {
@@ -39,23 +40,25 @@ export default class ApiTester extends Component {
       request
       } = this.props;
 
+    const func = (data) => request(data)
+      .then(result => {
+        if (result && typeof result.error === 'object') {
+          return Promise.reject(result.error);
+        }
+      });
+
+    // console.log(body);
     return (
       <div className="container-fluid">
         <h1>API Tester</h1>
         <Helmet title="API TESTER"/>
-        <Grid>
           <Row>
             <Col xs={6}>
-              <form className="form-horizontal" onSubmit={handleSubmit(request)}>
-                <FormGroup>
-                  <ControlLabel>Path</ControlLabel>
-                  <FormControl
-                    type="text"
-                    placeholder="/axapi/v3/slb/virtual_server/"
-                    {...path}
-                  />
-                  <FormControl.Feedback />
-                </FormGroup>
+              <form className="form-horizontal" onSubmit={handleSubmit(func)}>
+                <div className="form-group">
+                  <label className="control-label">Path</label>
+                  <input type="text" className="form-control" {...path}/>
+                </div>
                 <FormGroup>
                   <ControlLabel>Method</ControlLabel>
                   <FormControl componentClass="select" {...method} placeholder="select">
@@ -70,6 +73,7 @@ export default class ApiTester extends Component {
                   <ControlLabel>Body</ControlLabel>
                   <FormControl
                     componentClass="textarea"
+                    rows={10}
                     placeholder=""
                     {...body}
                   />
@@ -77,22 +81,23 @@ export default class ApiTester extends Component {
                 </FormGroup>
 
                 <FormGroup>
-                  <Col sm={12}>
-                    <Button type="submit" disabled={submitting}>
-                      {submitting ? <i/> : <i/>} Submit
-                    </Button>
-                    <Button type="button" disabled={submitting} onClick={resetForm}>
-                      Reset
-                    </Button>
-                  </Col>
+                  <ButtonToolbar>
+                    <ButtonGroup bsSize="large">
+                      <Button type="submit" disabled={submitting} bsStyle="primary">
+                        {submitting ? <i/> : <i/>} Request
+                      </Button>
+                      <Button type="button" disabled={submitting} onClick={resetForm}>
+                        Reset
+                      </Button>
+                    </ButtonGroup>
+                  </ButtonToolbar>
                 </FormGroup>
               </form>
             </Col>
             <Col xs={6}>
-              <pre>{response}</pre>
+              <pre>{JSON.stringify(response, '\n', '  ')}</pre>
             </Col>
           </Row>
-        </Grid>
       </div>
     );
   }

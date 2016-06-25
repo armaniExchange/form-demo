@@ -1,14 +1,21 @@
-const APIREQUEST = 'APIREQUEST';
-
+// const APIREQUEST = 'redux-example/widgets/SAVE_SUCCESS';
+// const APIREQUEST_FAIL = 'redux-example/widgets/APIREQUEST_FAIL';
+const SAVE_SUCCESS = 'redux-example/widgets/SAVE_SUCCESS';
+const SAVE_FAIL = 'redux-example/widgets/SAVE_FAIL';
 
 const initialState = {
-
+  response: {}
 };
 
 export default function reducer(state = initialState, action = {}) {
+  console.log('entered here');
   switch (action.type) {
 
-    case APIREQUEST:
+    case SAVE_SUCCESS:
+      console.log(state, action);
+      return state;
+
+    case SAVE_FAIL:
       console.log(state, action);
       return state;
     default:
@@ -19,7 +26,9 @@ export default function reducer(state = initialState, action = {}) {
 
 export function request(data) {
   return {
-    type: APIREQUEST,
-    promise: (client) => client.get(data.path)
+    types: [SAVE_SUCCESS, SAVE_FAIL],
+    promise: (client) => client.post(data.path, {
+      data: data.body
+    })
   };
 }

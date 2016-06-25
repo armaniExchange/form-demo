@@ -5,16 +5,19 @@ const methods = ['get', 'post', 'put', 'patch', 'del'];
 
 function formatUrl(path) {
   const adjustedPath = path[0] !== '/' ? '/' + path : path;
+  // console.log('Path initialized', path, adjustedPath);
   if (__SERVER__) {
-    // Prepend host and port of the API server to the path.
+    // Prepend host and port of the API server  to the path.
     return 'http://' + config.apiHost + ':' + config.apiPort + adjustedPath;
   }
   // Prepend `/api` to relative URL, to proxy to API server.
-  return '/api' + adjustedPath;
+  // return '/api' + adjustedPath;
+  return adjustedPath;
 }
 
 export default class ApiClient {
   constructor(req) {
+    // console.log(methods, req, 'hi ApiClient');
     methods.forEach((method) =>
       this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path));

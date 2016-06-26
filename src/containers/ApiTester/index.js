@@ -16,7 +16,7 @@ import { FormGroup, FormControl, ControlLabel, Button, Col, Row, ButtonToolbar, 
       body: JSON.stringify({credentials: {username: 'admin', password: 'a10'}}, '\n', '   ')
     }
   },
-  () => ({}),
+  (state) => ({response: state.apiTester.response}),
   dispatch => bindActionCreators(apiTesterActions, dispatch)
 )
 export default class ApiTester extends Component {
@@ -40,21 +40,19 @@ export default class ApiTester extends Component {
       request
       } = this.props;
 
-    const func = (data) => request(data)
-      .then(result => {
-        if (result && typeof result.error === 'object') {
-          return Promise.reject(result.error);
-        }
-      });
+    // const func = (data) => request(data)
+    //   .then(result => {
+    //     if (result && typeof result.error === 'object') {
+    //       return Promise.reject(result.error);
+    //     }
+    //   });
 
-    // console.log(body);
     return (
       <div className="container-fluid">
-        <h1>API Tester</h1>
         <Helmet title="API TESTER"/>
           <Row>
             <Col xs={6}>
-              <form className="form-horizontal" onSubmit={handleSubmit(func)}>
+              <form className="form-horizontal" onSubmit={handleSubmit(request)}>
                 <div className="form-group">
                   <label className="control-label">Path</label>
                   <input type="text" className="form-control" {...path}/>

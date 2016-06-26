@@ -1,23 +1,29 @@
-// const APIREQUEST = 'redux-example/widgets/SAVE_SUCCESS';
-// const APIREQUEST_FAIL = 'redux-example/widgets/APIREQUEST_FAIL';
-const SAVE_SUCCESS = 'redux-example/widgets/SAVE_SUCCESS';
-const SAVE_FAIL = 'redux-example/widgets/SAVE_FAIL';
+const SAVE_SUCCESS = 'SAVE_SUCCESS';
+const SAVE_FAIL = 'SAVE_FAIL';
+const SAVE = 'SAVE';
 
-const initialState = {
-  response: {}
-};
+const initialState = {};
 
 export default function reducer(state = initialState, action = {}) {
-  console.log('entered here');
   switch (action.type) {
+    case SAVE:
+      return {
+        ...state,
+        isLoading: true
+      };
 
     case SAVE_SUCCESS:
-      console.log(state, action);
-      return state;
+      return {
+        ...state,
+        response: action.result
+      };
 
     case SAVE_FAIL:
-      console.log(state, action);
-      return state;
+      return {
+        ...state,
+        error: true,
+        response: {}
+      };
     default:
       // console.log('default reducer');
       return state;
@@ -26,8 +32,8 @@ export default function reducer(state = initialState, action = {}) {
 
 export function request(data) {
   return {
-    types: [SAVE_SUCCESS, SAVE_FAIL],
-    promise: (client) => client.post(data.path, {
+    types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
+    promise: (client) => client[data.method.toLowerCase()](data.path, {
       data: data.body
     })
   };

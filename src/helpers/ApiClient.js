@@ -19,7 +19,7 @@ export default class ApiClient {
   constructor(req) {
     // console.log(methods, req, 'hi ApiClient');
     methods.forEach((method) =>
-      this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
+      this[method] = (path, { params, data, headers } = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path));
 
         if (params) {
@@ -28,6 +28,12 @@ export default class ApiClient {
 
         if (__SERVER__ && req.get('cookie')) {
           request.set('cookie', req.get('cookie'));
+        }
+
+        if (headers) {
+          for (const [k, v] of Object.entries(headers)) {
+            request.set(k, v);
+          }
         }
 
         if (data) {

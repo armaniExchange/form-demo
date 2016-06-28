@@ -41,22 +41,18 @@ export default class ComponentBuilderProperties extends Component {
     }
   }
 
-  onUpdateComponentClick = _.debounce(() =>{
-    this.props.updateComponent(this.props.componentProps.componentId, this.state);
-  }, 100)
-
   onInputChange(propTypeName, event) {
     this.setState({
       [propTypeName]: event.target.value
     });
-    this.onUpdateComponentClick();
+    this.updateComponent();
   }
 
   onCheckBoxChange(propTypeName, event) {
     this.setState({
       [propTypeName]: event.target.checked
     });
-    this.onUpdateComponentClick();
+    this.updateComponent();
   }
 
   onOptionsChange(propTypeName, options) {
@@ -68,14 +64,14 @@ export default class ComponentBuilderProperties extends Component {
     this.setState({
       [propTypeName]: thisOptions
     });
-    this.onUpdateComponentClick();
+    this.updateComponent();
   }
 
   onSelectChange(propTypeName, value) {
     this.setState({
       [propTypeName]: value
     });
-    this.onUpdateComponentClick();
+    this.updateComponent();
   }
 
   onDismissComponentBuilderPrperties() {
@@ -88,6 +84,10 @@ export default class ComponentBuilderProperties extends Component {
       return Object.assign({children: '', style: {}}, componentProps);
     }
   }
+
+  updateComponent = _.debounce(() =>{
+    this.props.updateComponent(this.props.componentProps.componentId, Object.assign({}, this.state, {children: null}));
+  }, 100)
 
   renderInput(propTypeName, propType, value) {
 

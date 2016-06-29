@@ -15,18 +15,18 @@ const initialState = {
     style: {
       minHeight: 100
     },
-    children: [
+    componentChildren: [
       {
         componentId: 'exampleA',
         component: 'Button',
         bsStyle: 'primary',
-        children: 'OK'
+        componentChildren: 'OK'
       },
       {
         componentId: 'exampleB',
         component: 'Button',
         bsStyle: 'danger',
-        children: 'Cancel'
+        componentChildren: 'Cancel'
       },
     ]
   },
@@ -39,8 +39,8 @@ const initialState = {
 function _deleteComponent(schema, componentId) {
   return {
     ...schema,
-    children: !schema.children || typeof schema.children === 'string' ? schema.children :
-      schema.children.filter(item => item.componentId !== componentId)
+    componentChildren: !schema.componentChildren || typeof schema.componentChildren === 'string' ? schema.componentChildren :
+      schema.componentChildren.filter(item => item.componentId !== componentId)
       .map(item => {
         return _deleteComponent(item, componentId);
       })
@@ -50,8 +50,8 @@ function _deleteComponent(schema, componentId) {
 function _updateComponent(schema, componentId, component) {
   return {
     ...schema,
-    children: !schema.children || typeof schema.children === 'string' ? schema.children :
-      schema.children
+    componentChildren: !schema.componentChildren || typeof schema.componentChildren === 'string' ? schema.componentChildren :
+      schema.componentChildren
       .map(item => {
         if ( item.componentId === componentId) {
           Object.assign(item, component);
@@ -65,14 +65,14 @@ function _moveComponent(schema, dragComponent, dropComponentId, isNew, asChild =
   if (isNew && !dragComponent.componentId) {
     dragComponent.componentId = shortid.generate();
   }
-  const modifiedChildren = !schema.children || typeof schema.children === 'string' ? schema.children :
-    schema.children.filter(item => item.componentId !== dragComponent.componentId)
+  const modifiedChildren = !schema.componentChildren || typeof schema.componentChildren === 'string' ? schema.componentChildren :
+    schema.componentChildren.filter(item => item.componentId !== dragComponent.componentId)
     .map(item => _moveComponent(item, dragComponent, dropComponentId, isNew, asChild))
     .reduce((prev, current) => {
       if (current.componentId === dropComponentId) {
         if (asChild) {
-          current.children = current.children || [];
-          current.children = [...current.children, dragComponent];
+          current.componentChildren = current.componentChildren || [];
+          current.componentChildren = [...current.componentChildren, dragComponent];
         } else {
           return [...prev, dragComponent, current];
         }
@@ -83,7 +83,7 @@ function _moveComponent(schema, dragComponent, dropComponentId, isNew, asChild =
     }, []);
   return {
     ...schema,
-    children: modifiedChildren
+    componentChildren: modifiedChildren
   };
 }
 
@@ -101,7 +101,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         sandboxValue: {
           ...state.sandboxValue,
-          children: [...state.sandboxValue.children, newComponent],
+          componentChildren: [...state.sandboxValue.componentChildren, newComponent],
         }
       };
     case DELETE_COMPONENT:

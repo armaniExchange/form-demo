@@ -1,8 +1,10 @@
 function toJSX(schema, indent = 0) {
   const props = Object.assign({}, schema, {
     _isNew: null,
+    _isContainer: null,
     component: null,
     componentId: null,
+    componentChildren: null,
     editingComponentId: null,
     children: null,
     isDragging: null
@@ -31,12 +33,12 @@ function toJSX(schema, indent = 0) {
     })
     .join('\n  ' + indention);
 
-  if (!schema.children) {
+  if (!schema.componentChildren) {
     return `\n${indention}<${schema.component} ${propsString} />`;
   }
   return `\n${indention}<${schema.component}${propsString ? ' ' + propsString : ''}>${
-  typeof schema.children !== 'string' ?
-    schema.children.map(child=> toJSX(child, indent + 1)).join('') : '\n' + indention + '  ' + schema.children
+  typeof schema.componentChildren !== 'string' ?
+    schema.componentChildren.map(child=> toJSX(child, indent + 1)).join('') : '\n' + indention + '  ' + schema.componentChildren
   }\n${indention}</${schema.component}>`;
 }
 

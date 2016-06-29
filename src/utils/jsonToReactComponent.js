@@ -7,7 +7,7 @@ wrappedComponents = {};
 
 const toComponent = (obj, enableWrap, props = {}) => {
   const {
-    children,
+    componentChildren,
     component
   } = obj;
 
@@ -24,8 +24,8 @@ const toComponent = (obj, enableWrap, props = {}) => {
     }
     reactComponent = wrappedComponents[component];
   }
-  const childrenComponent = !children || typeof children === 'string' ? obj : (children || []).map(item => toComponent(item, enableWrap, props));
-  return React.createElement.apply(this, [reactComponent, Object.assign({}, obj, props, {key: obj.componentId}), ...childrenComponent]);
+  const reactComponentChildren = !componentChildren || typeof componentChildren === 'string' ? [componentChildren] : (componentChildren || []).map(item => toComponent(item, enableWrap, props));
+  return React.createElement.apply(this, [reactComponent, Object.assign({}, obj, props, {key: obj.componentId}), ...reactComponentChildren]);
 };
 
 export default toComponent;

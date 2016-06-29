@@ -37,7 +37,11 @@ export default class ComponentBuilderProperties extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.componentProps) {
+      if (this.props.componentProps.componentId !== nextProps.componentProps.componentId) {
+        this.state = {};
+      }
       this.setState(this.getStateFromProps(nextProps));
+
     }
   }
 
@@ -162,9 +166,9 @@ export default class ComponentBuilderProperties extends Component {
             <Col sm={8}>
               <FormControl
                 type="text"
-                disabled={typeof this.state.children === 'object'}
-                value={this.state.children}
-                onChange={this.onInputChange.bind(this, 'children')}/>
+                disabled={typeof this.state.componentChildren === 'object'}
+                value={this.state.componentChildren}
+                onChange={this.onInputChange.bind(this, 'componentChildren')}/>
             </Col>
           </FormGroup>
           {

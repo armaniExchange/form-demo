@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-// import Panel from 'react-bootstrap/lib/Panel';
+import { findDOMNode } from 'react-dom';
 import {connect} from 'react-redux';
 import {
   DragSource as dragSource,
@@ -23,12 +23,33 @@ const componentSource = {
   },
 };
 const componentTarget = {
-  drop(props, monitor, /* component */) {
+  drop(props, monitor, component ) {
+    const item = monitor.getItem();
     if (monitor.didDrop()) {
       return;
     }
-    const item = monitor.getItem();
-    props.moveComponent(Object.assign({}, item, { _isNew: false }), props.componentId, item._isNew, props._isContainer);
+    if (props.componentId === item.componentId) {
+      return;
+    }
+    const dropBoundingRect = findDOMNode(component).getBoundingClientRect();
+    const dropMiddleY = (dropBoundingRect.bottom - dropBoundingRect.top) / 2;
+    const clientOffset = monitor.getClientOffset();
+    const dropClientY = clientOffset.y - dropBoundingRect.top;
+    let newPosition = 'before';
+
+    if (props._isContainer) {
+      if (dropClientY >= dropMiddleY * 0.5 && dropClientY <= dropMiddleY * 1.5) {
+        newPosition = 'inside';
+      } else if (dropClientY > dropMiddleY * 1.5) {
+        newPosition = 'after';
+      }
+    } else {
+      if (dropClientY > dropMiddleY) {
+        newPosition = 'after';
+      }
+    }
+
+    props.moveComponent(Object.assign({}, item, { _isNew: false, children: null }), props.componentId, item._isNew, newPosition);
   }
 };
 

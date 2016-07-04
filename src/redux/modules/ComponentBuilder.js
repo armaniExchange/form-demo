@@ -61,20 +61,20 @@ function _updateComponent(schema, componentId, component) {
   };
 }
 
-function _moveComponent(schema, dragComponent, dropComponentId, isNew, asChild = false) {
+function _moveComponent(schema, dragComponent, dropComponentId, isNew, newPosition) {
   if (isNew && !dragComponent.componentId) {
     dragComponent.componentId = shortid.generate();
   }
   const modifiedChildren = !schema.componentChildren || typeof schema.componentChildren === 'string' ? schema.componentChildren :
     schema.componentChildren.filter(item => item.componentId !== dragComponent.componentId)
-    .map(item => _moveComponent(item, dragComponent, dropComponentId, isNew, asChild))
+    .map(item => _moveComponent(item, dragComponent, dropComponentId, isNew, newPosition))
     .reduce((prev, current) => {
       if (current.componentId === dropComponentId) {
-        if (asChild) {
+        if (newPosition === 'inside') {
           current.componentChildren = current.componentChildren || [];
           current.componentChildren = [...current.componentChildren, dragComponent];
         } else {
-          return [...prev, dragComponent, current];
+          return newPosition === 'before' ? [...prev, dragComponent, current] : [...prev, current, dragComponent];
         }
       } else if (current.componentId === dragComponent.id) {
         return prev;
@@ -117,7 +117,7 @@ export default function reducer(state = initialState, action = {}) {
     case MOVE_COMPONENT:
       return {
         ...state,
-        sandboxValue: _moveComponent(state.sandboxValue, action.dragComponent, action.dropComponentId, action.isNew, action.asChild)
+        sandboxValue: _moveComponent(state.sandboxValue, action.dragComponent, action.dropComponentId, action.isNew, action.newPosition)
       };
     case START_TO_EDIT_COMPONENT:
       return {
@@ -161,13 +161,13 @@ export function deleteComponent(componentId) {
   };
 }
 
-export function moveComponent(dragComponent, dropComponentId, isNew, asChild) {
+export function moveComponent(dragComponent, dropComponentId, isNew, newPosition) {
   return {
     type: MOVE_COMPONENT,
     dragComponent,
     dropComponentId,
     isNew,
-    asChild
+    newPosition
   };
 }
 

@@ -1,240 +1,229 @@
 import React, {Component, PropTypes} from 'react';
-import {reduxForm} from 'redux-form';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import VirtualServerValidation from './VirtualServerValidation';
-import * as vsActions from 'redux/modules/vs';
-import Sortable, { sortable } from 'react-anything-sortable';
-import 'react-anything-sortable/sortable.css';
+import {reduxForm, propTypes} from 'redux-form';
+// import {connect} from 'react-redux';
+// import {bindActionCreators} from 'redux';
+// import VirtualServerValidation from './VirtualServerValidation';
+// import * as vsActions from 'redux/modules/vs';
+import {Form, Row, Col, Panel, FormGroup, ControlLabel, HelpBlock, Button, FormControl} from 'react-bootstrap';
+// import * as Elements from '../FormElements/types/index';
+import _ from 'lodash';
 
-function asyncValidate(data, dispatch, {isValidEmail}) {
-  if (!data.wildcard) {
-    return Promise.resolve({});
-  }
-  return isValidEmail(data);
-}
-// use react anything sortable
-@sortable
-class SortableItem extends React.Component {
-  static propTypes = {
-    children: PropTypes.object,
-  }
-
-  render() {
-    const {
-      children
-    } = this.props;
-    return (
-      <div {...this.props}>
-        {children}
-      </div>
-    );
-  }
+/*
+class SchemaObject {
+    validate
+    get axapi URL
 }
 
-@connect(
-  (state) => ({
-    uiData: state.vs.uiData
-  }),
-  dispatch => bindActionCreators(vsActions, dispatch)
-)
-@reduxForm({
-  form: 'vs',
-  fields: ['name', 'wildcard', 'slb.ipAddress', 'extendStats', 'ip'],
-  validate: VirtualServerValidation,
-  asyncValidate,
-  asyncBlurFields: ['wildcard']
-})
+class ApiObject {
+  schema
+  validator
+  send api to backend
+}
+
+class Validator {
+  validate all fields
+  use validate maps
+}
+*/
+
+// Data Filter
+const filters = {
+  'minLength': (value, arg) => (this.length >= parseInt(arg, 10) || new Error('Max Length no more than' + arg)),
+  'maxLength': (value, arg) => (this.length <= parseInt(arg, 10) || new Error('Max Length need less than' + arg)),
+};
+
+// load json schemas, no recursive support currently
+function loadFieldSchemas(field) {
+  const fieldSecs = field.split('.');
+  const fieldName = fieldSecs.pop();
+  // const objectName = fieldSecs.join('.');
+
+  // const jsonSchemas = require('./' + objectName);
+  const jsonSchemas = {
+    'obj-name': 'virtual-server',
+    'obj-help': 'Create a Virtual Server',
+    'obj-lineage': 'cmroot.slb',
+    'obj-occurences': 'multi',
+    'obj-json-suffix': '-list',
+    'obj-indexing': 'string',
+    'obj-module-prompt': 'slb vserver',
+    'obj-disp-after': 'waf.template',
+    'obj-module-dont-display-value-in-prompt': true,
+    'obj-stats-oid': '2012',
+    'obj-lineage-full': 'slb.virtual-server',
+    'axapi': '/axapi/v3/slb/virtual-server/{name}',
+    'properties': {
+      'name': {
+        'type': 'string',
+        'format': 'string-rlx',
+        'object-key': true,
+        'minLength': '1',
+        'maxLength': '127',
+        'description': 'SLB Virtual Server Name',
+        'example-default': 'vs1',
+        'src-name': 'name'
+      },
+      'ipv6-address': {
+        'type': 'ipv6-address',
+        'condition': 'name',
+        'modify-ineligible': true,
+        'description': 'IPV6 address',
+        'format': 'ipv6-address',
+        'src-name': 'ipv6-address'
+      },
+      'ip-address': {
+        'type': 'ipv4-address',
+        'condition': 'name',
+        'description': 'IP Address',
+        'modify-ineligible': true,
+        'm-exclusion': 'ipv6-address',
+        'after-cb-dup-ip-check': true,
+        'format': 'ipv4-address',
+        'src-name': 'ip-address'
+      }
+    }
+  };
+
+  console.log('fieldName ', fieldName);
+  if (jsonSchemas.properties && jsonSchemas.properties[fieldName]) {
+    return jsonSchemas.properties && jsonSchemas.properties[fieldName];
+  }
+
+  return {};
+}
+
+// should generate basic data validations from json schemas
+function valiate() {
+  return values => {
+    const errors = {};
+    // console.log('hi values', values);
+    Object.keys(values).map(fieldName => {
+      const schema = loadFieldSchemas(fieldName);
+      console.log(schema);
+      if (schema) {
+        Object.keys(schema).map(param => {
+          if (filters[param]) {
+            const result = filters[param].call(values[fieldName], schema[param]);
+            if (typeof result !== 'boolean') {
+              errors[fieldName] = result;
+            }
+          }
+        });
+      }
+    });
+    return errors;
+  };
+}
+
+// connector
+function connectToWrapper(fields, formName) {
+  return (WrappedComponent) => {
+    @reduxForm(
+      {
+        form: formName,
+        fields: fields,
+        validate: valiate()
+      }
+      // undefined,
+      // dispatch => bindActionCreators(vsActions, dispatch)
+    )
+    class Wrap extends Component {
+      render() {
+        return <WrappedComponent {...this.props} />;
+      }
+    }
+    return Wrap;
+  };
+}
+
+// Connect to Form
+const fields = ['slb.virtual-server.name', 'slb.virtual-server.ip-address', 'test'];
+const formName = 'vs';
+
+@connectToWrapper(fields, formName)
 export default
 class VirtualServerForm extends Component {
   static propTypes = {
-    active: PropTypes.string,
-    asyncValidating: PropTypes.bool.isRequired,
-    fields: PropTypes.object.isRequired,
-    dirty: PropTypes.bool.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    resetForm: PropTypes.func.isRequired,
-    saveUI: PropTypes.func.isRequired,
-    invalid: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    valid: PropTypes.bool.isRequired,
-    uiData: PropTypes.array.isRequired
+    ...propTypes
   }
-
-  // constructor() {
-  //   super();
-  //   this.state.uiState = {};
-  // }
-
-  handleSort(data) {
-    console.log('This State', data);
-    this.props.saveUI(data);
-  }
-
-  // handleSort(sortedArray) {
-  //   console.log(sortedArray);
-  // }
-
-  // handleAddElement() {
-  //   this.setState({
-  //     arr: this.state.arr.concat(Math.round(Math.random() * 1000))
-  //   });
-  // }
-
-  // handleRemoveElement(index) {
-  //   const newArr = this.state.arr.slice();
-  //   newArr.splice(index, 1);
-
-  //   this.setState({
-  //     arr: newArr
-  //   });
-  // }
 
   render() {
     // console.log(this.state, 'state');
     const {
-      asyncValidating,
-      dirty,
-      fields: {name, wildcard, slb, extendStats, ip},
-      active,
+      fields: {slb: {'virtual-server': vs}, test},
       handleSubmit,
-      invalid,
-      resetForm,
-      pristine,
-      valid,
-      uiData
+      submitting,
       } = this.props;
-    const styles = require('./VirtualServerForm.scss');
-    const renderInput = (field, label, showAsyncValidating) =>
-      <div className={'form-group' + (field.error && field.touched ? ' has-error' : '')}>
-        <label htmlFor={field.name} className="col-sm-4">{label}</label>
-        <div className={'col-sm-8 ' + styles.inputGroup}>
-          {showAsyncValidating && asyncValidating && <i className={'fa fa-cog fa-spin ' + styles.cog}/>}
-          <input type="text" className="form-control" id={field.name} {...field}/>
-          {field.error && field.touched && <div className="text-danger">{field.error}</div>}
-        </div>
-      </div>;
+    // const styles = require('./VirtualServerForm.scss');
 
-      // <div className={styles.flags}>
-      //   {field.dirty && <span className={styles.dirty} title="Dirty">D</span>}
-      //   {field.active && <span className={styles.active} title="Active">A</span>}
-      //   {field.visited && <span className={styles.visited} title="Visited">V</span>}
-      //   {field.touched && <span className={styles.touched} title="Touched">T</span>}
-      // </div>
+    const request = (data) => {
+      console.log(data);
+    };
+
+    // console.log(vs);
+
     return (
-      <div className="test">
-          <form className="form-horizontal" onSubmit={handleSubmit}>
-            <div className="row">
-              <div className="col-md-6">
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="panel panel-default">
-                      <div className="panel-heading">
-                        <h3 className="panel-title">Basic</h3>
-                      </div>
-                      <div className="panel-body">
-                          {renderInput(name, 'Full Name')}
-                          {renderInput(wildcard, 'Wildcard', true)}
-                          <div className="form-group">
-                            <label className="col-sm-4">Address Type</label>
-                            <div className="col-sm-8">
-                              <input type="radio" id="address-type" {...ip} value="0" checked={ip.value === '0'}/>
-                              <label htmlFor="ip-ipv4" className={styles.radioLabel}>IPv4</label>
-                              <input type="radio" id="ip-ipv6" {...ip} value="1" checked={ip.value === '1'}/>
-                              <label htmlFor="ip-ipv6" className={styles.radioLabel}>IPv6</label>
-                            </div>
-                          </div>
-                          {renderInput(slb.ipAddress, 'IP Address')}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-md-12">
-                    <div className="panel panel-default">
-                      <div className="panel-heading">
-                        <h3 className="panel-title">Advance</h3>
-                      </div>
-                      <div className="panel-body">
-                        <div className="form-group">
-                          <label htmlFor="extend_stats" className="col-sm-4">Extend Stats</label>
-                          <div className="col-sm-8">
-                            <input type="checkbox" id="extend_stats" {...extendStats}/>
-                          </div>
-                        </div>
-
-                        <p>State:{uiData ? uiData : ''}</p>
-                        <Sortable onSort={::this.handleSort} className="containment-demo" >
-                          <SortableItem className={styles.item} sortData="react" key={1}>
-                            <p>Reactjs</p>
-                          </SortableItem>
-                          <SortableItem className={styles.item} sortData="angular" key={2}>
-                            <p>Angularjs</p>
-                          </SortableItem>
-                        </Sortable>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="panel panel-default">
-                  <div className="panel-heading">
-                    <h3 className="panel-title">Members</h3>
-                  </div>
-
-                  <div className="panel-body">
-
-
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-md-4 col-md-push-8">
-                <div className="form-group">
-                  <div className="col-sm-offset-2 col-sm-8">
-                    <button className="btn btn-success" onClick={handleSubmit}>
-                      <i className="fa fa-paper-plane"/> Submit
-                    </button>
-                    <button className="btn btn-warning" onClick={resetForm} style={{marginLeft: 15}}>
-                      <i className="fa fa-undo"/> Reset
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-
-          <h4>Props from redux-form</h4>
-
-          <table className="table table-striped">
-            <tbody>
-            <tr>
-              <th>Active Field</th>
-              <td>{active}</td>
-            </tr>
-            <tr>
-              <th>Dirty</th>
-              <td className={dirty ? 'success' : 'danger'}>{dirty ? 'true' : 'false'}</td>
-            </tr>
-            <tr>
-              <th>Pristine</th>
-              <td className={pristine ? 'success' : 'danger'}>{pristine ? 'true' : 'false'}</td>
-            </tr>
-            <tr>
-              <th>Valid</th>
-              <td className={valid ? 'success' : 'danger'}>{valid ? 'true' : 'false'}</td>
-            </tr>
-            <tr>
-              <th>Invalid</th>
-              <td className={invalid ? 'success' : 'danger'}>{invalid ? 'true' : 'false'}</td>
-            </tr>
-            </tbody>
-          </table>
+      <div className="container-fluid">
+          <Form onSubmit={handleSubmit(request)} inline>
+              <Row>
+                <Col>
+                  <Panel>
+                    <FormGroup controlId="formControlsName">
+                      <ControlLabel>Name</ControlLabel>
+                      <FormControl type="text" {...vs.name} />
+                      <HelpBlock>Test Field</HelpBlock>
+                    </FormGroup>
+                    <FormGroup controlId="formControlsName">
+                      <ControlLabel>IP Address</ControlLabel>
+                      <FormControl type="text" {...vs['ip-address']} />
+                      <HelpBlock>IP Address</HelpBlock>
+                    </FormGroup>
+                    <FormGroup controlId="formControlsCE">
+                      <ControlLabel>Customized Element</ControlLabel>
+                      <TestElement {...test} >Customized</TestElement>
+                    </FormGroup>
+                  </Panel>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Button type="submit">Submit</Button>
+                </Col>
+              </Row>
+          </Form>
+          {submitting && <div>Submitting</div> }
       </div>
     );
+  }
+}
+
+
+class TestElement extends Component {
+  static propTypes = {
+    initialValue: PropTypes.string,
+    formName: PropTypes.string,
+    value: PropTypes.string,
+    name: PropTypes.string,
+    dispatch: PropTypes.func,
+    field: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+    children: PropTypes.object.isRequired
+  }
+
+  render() {
+    const {
+      children,
+      value,
+      initialValue,
+      name,
+      onChange
+    } = this.props;
+    // console.log(this.props);
+    return (
+      <div>
+        <span>{children}</span>
+        <FormControl type="text" placeholder={_.get(this.props.field, 'placeholder', '')} value={value ? value : initialValue} name={name} onChange={event => onChange(event)} />
+      </div>
+      );
   }
 }

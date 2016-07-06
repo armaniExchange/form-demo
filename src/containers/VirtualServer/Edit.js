@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import {initialize} from 'redux-form';
-import {VirtualServerForm, FormCreateToolbar} from 'components';
+import {VirtualServerForm} from 'components';
 
 @connect(
   () => ({}),
@@ -31,12 +31,10 @@ export default class VirtualServer extends Component {
     return (
       <div className="container-fluid">
         <Helmet title="VirtualServer"/>
-        <div className="col-md-10">
+        <div className="col-md-12">
           <VirtualServerForm onSubmit={this.handleSubmit}/>
         </div>
-        <div className="col-md-2">
-          <FormCreateToolbar />
-        </div>
+
       </div>
     );
   }

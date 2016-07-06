@@ -69,6 +69,29 @@ class CheckboxType extends Component {
     }
   }
 
+  getValue() {
+    const options = _.get(this.props.field, 'options', []);
+    let value = this.props.properties.initialValue || this.props.properties.value;
+    if (!!value && !_.isArray(value)) {
+      value = [value];
+    }
+
+    if (value.length === 0) {
+      return '-';
+    }
+
+    return _.map(value, (val, key) => {
+      return (
+        <span key={key}>
+          <i className="fa fa-check-square-o"></i>
+          {' '}
+          {_.get(options, [_.findIndex(options, ['value', val]), 'desc'], '')}
+          <br />
+        </span>
+      );
+    });
+  }
+
   filtered(options) {
     const {value} = this.state;
     const strValue = String(value).toLowerCase();
@@ -135,29 +158,6 @@ class CheckboxType extends Component {
         >
           {option.desc}
         </Checkbox>
-      );
-    });
-  }
-
-  getValue() {
-    const options = _.get(this.props.field, 'options', []);
-    let value = this.props.properties.initialValue || this.props.properties.value;
-    if (!!value && !_.isArray(value)) {
-      value = [value];
-    }
-
-    if (value.length === 0) {
-      return '-';
-    }
-
-    return _.map(value, (val, key) => {
-      return (
-        <span key={key}>
-          <i className="fa fa-check-square-o"></i>
-          {' '}
-          {_.get(options, [_.findIndex(options, ['value', val]), 'desc'], '')}
-          <br />
-        </span>
       );
     });
   }

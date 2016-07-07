@@ -73,14 +73,16 @@ export default function connectToWrap() {
     /* eslint-enable */
     class Wrap extends Component {
       static propTypes = {
+        _isContainer: PropTypes.bool,
         componentId: PropTypes.string,
         editingComponentId: PropTypes.string,
         connectDragSource: PropTypes.func,
         connectDropTarget: PropTypes.func,
         startToEditComponent: PropTypes.func,
         deleteComponent: PropTypes.func,
-        moveComponent: PropTypes.func
-      }
+        moveComponent: PropTypes.func,
+        children: PropTypes.node,
+      };
 
       deleteComponent(event) {
         event.stopPropagation();
@@ -113,19 +115,33 @@ export default function connectToWrap() {
           connectDragSource,
           connectDropTarget,
           componentId,
-          editingComponentId
+          editingComponentId,
+          _isContainer
         } = this.props;
 
-        const ComponentId = 'componentId: ' + componentId;
+
+        // const ComponentId = 'componentId: ' + componentId;
         const isActive = componentId === editingComponentId;
-        return connectDropTarget(connectDragSource(
-          <div onClick={::this.editProperties} className={ styles[isActive ? 'wrapper-active' : 'wrapper-normal']}>
-            <span>{ ComponentId }</span>
-            <i className="fa fa-cog {styles.edit}" onClick={::this.editProperties}/>
-            <i className="fa fa-trash text-alert {styles.delete}" onClick={::this.deleteComponent}/>
-            <WrappedComponent {...this.props} />
-          </div>
-        ));
+        return (
+          <WrappedComponent {...this.props}
+            style={{position: 'relative'}}
+            ref={instance => {
+              const domNode = findDOMNode(instance);
+              connectDragSource(domNode);
+              connectDropTarget(domNode);
+              return domNode;
+            }
+          }>
+            <div onClick={::this.editProperties} className={ styles[isActive ? 'wrapper-active' : 'wrapper-normal']} />
+            <div style={Object.assign(_isContainer ? {minHeight: 50, minWidth: 100, overflow: 'hidden', padding: 10} : {} )}>
+              {this.props.children}
+            </div>
+
+            { /* <span>{ ComponentId }</span> */ }
+            { /* <i className="fa fa-cog {styles.edit}" onClick={::this.editProperties}/> */ }
+            { /* <i className="fa fa-trash text-alert {styles.delete}" onClick={::this.deleteComponent}/> */ }
+          </WrappedComponent>
+        );
       }
     }
     return Wrap;

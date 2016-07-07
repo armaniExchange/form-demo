@@ -23,6 +23,21 @@ class RadioType extends Component {
     this.state = {value: ''};
   }
 
+  getValue() {
+    const options = _.get(this.props.field, 'options', []);
+    const value = String(this.props.properties.initialValue || this.props.properties.value);
+    const index = _.findIndex(options, ['value', value]);
+    if (index > -1 && _.has(options, [index, 'desc'])) {
+      return (
+        [
+          <i className="fa fa-dot-circle-o"></i>,
+          ' ',
+          _.get(options, [index, 'desc'], '-')
+        ]
+      );
+    }
+  }
+
   filtered(options) {
     const {value} = this.state;
     const strValue = String(value).toLowerCase();
@@ -91,21 +106,6 @@ class RadioType extends Component {
         </Radio>
       );
     });
-  }
-
-  getValue() {
-    const options = _.get(this.props.field, 'options', []);
-    const value = String(this.props.properties.initialValue || this.props.properties.value);
-    const index = _.findIndex(options, ['value', value]);
-    if (index > -1 && _.has(options, [index, 'desc'])) {
-      return (
-        [
-          <i className="fa fa-dot-circle-o"></i>,
-          ' ',
-          _.get(options, [index, 'desc'], '-')
-        ]
-      );
-    }
   }
 
   handlePrevent(e) {

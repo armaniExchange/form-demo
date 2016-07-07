@@ -18,18 +18,18 @@ class SelectType extends Component {
     this.getValue = this.getValue.bind(this);
   }
 
+  getValue() {
+    const options = _.get(this.props.field, 'options', []);
+    const value = this.props.properties.initialValue || this.props.properties.value;
+    return _.get(options, [_.findIndex(options, ['value', value]), 'desc'], '');
+  }
+
   options() {
     if (this.props.field.type === 'select') {
       return _.map(_.get(this.props.field, 'options', []), (option, key) => {
         return <option key={key} value={option.value}>{option.desc}</option>;
       });
     }
-  }
-
-  getValue() {
-    const options = _.get(this.props.field, 'options', []);
-    const value = this.props.properties.initialValue || this.props.properties.value;
-    return _.get(options, [_.findIndex(options, ['value', value]), 'desc'], '');
   }
 
   render() {

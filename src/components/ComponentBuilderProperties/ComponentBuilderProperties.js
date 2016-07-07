@@ -52,6 +52,13 @@ export default class ComponentBuilderProperties extends Component {
     this.updateComponent();
   }
 
+  onNumberInputChange(propTypeName, event) {
+    this.setState({
+      [propTypeName]: parseFloat(event.target.value)
+    });
+    this.updateComponent();
+  }
+
   onCheckBoxChange(propTypeName, event) {
     this.setState({
       [propTypeName]: event.target.checked
@@ -127,7 +134,7 @@ export default class ComponentBuilderProperties extends Component {
     if (propType === PropTypes.bool || propType === PropTypes.bool.isRequired) {
       return <Checkbox defaultChecked={value} onChange={this.onCheckBoxChange.bind(this, propTypeName)}/>;
     } else if (propType === PropTypes.number || propType === PropTypes.number.isRequired) {
-      return <FormControl type="number" value={value} onChange={this.onInputChange.bind(this, propTypeName)}/>;
+      return <FormControl type="number" value={value} onChange={this.onNumberInputChange.bind(this, propTypeName)}/>;
     } else if (propType === PropTypes.array || propType === PropTypes.array.isRequired) {
       return <MultiOptionsEdit options={value} onChange={this.onOptionsChange.bind(this, propTypeName)}/>;
     }
